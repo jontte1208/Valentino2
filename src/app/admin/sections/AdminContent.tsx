@@ -30,6 +30,7 @@ export default function AdminContent() {
   const [editValue, setEditValue] = useState('')
   const [isSaving, setIsSaving] = useState(false)
   const [savedKey, setSavedKey] = useState<string | null>(null)
+  const [saveError, setSaveError] = useState<string | null>(null)
 
   useEffect(() => {
     loadContent()
@@ -52,16 +53,25 @@ export default function AdminContent() {
 
   async function saveEdit(key: string) {
     setIsSaving(true)
+    setSaveError(null)
     try {
-      await fetch('/api/content', {
+      const res = await fetch('/api/content', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ key, value: editValue }),
       })
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}))
+        setSaveError(data.error ?? 'Failed to save. Please try again.')
+        return
+      }
       setEditingKey(null)
+      setSaveError(null)
       setSavedKey(key)
       setTimeout(() => setSavedKey(null), 2000)
       loadContent()
+    } catch {
+      setSaveError('Network error. Please try again.')
     } finally {
       setIsSaving(false)
     }
@@ -131,9 +141,12 @@ export default function AdminContent() {
                           className="w-full px-3 py-2 border border-gray-200 rounded text-sm font-inter focus:outline-none focus:border-[#C0623A]"
                         />
                       )}
+                      {saveError && (
+                        <p className="font-inter text-xs text-red-600 mt-2">{saveError}</p>
+                      )}
                       <div className="flex gap-3 justify-end mt-3">
                         <button
-                          onClick={() => setEditingKey(null)}
+                          onClick={() => { setEditingKey(null); setSaveError(null) }}
                           className="px-3 py-1.5 border border-gray-200 text-gray-600 font-inter text-xs rounded hover:bg-gray-50"
                         >
                           Cancel
