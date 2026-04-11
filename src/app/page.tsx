@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { prisma } from '@/lib/prisma'
 import { getISOWeekNumber } from '@/lib/weekNumber'
 import HeroSection from '@/components/home/HeroSection'
