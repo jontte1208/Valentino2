@@ -9,7 +9,6 @@ const navLinks = [
   { href: '/om-oss', label: 'Om oss' },
   { href: '/meny', label: 'Meny' },
   { href: '/veckans-lunch', label: 'Veckans lunch' },
-  { href: '/boka-bord', label: 'Boka bord' },
   { href: '/kontakt', label: 'Kontakt' },
   { href: '/galleri', label: 'Galleri' },
 ]
@@ -69,10 +68,6 @@ export default function Navbar() {
                   pathname === link.href
                     ? 'text-[#C0623A]'
                     : 'text-[#FAF4EB]/90 hover:text-[#FAF4EB]'
-                } ${
-                  link.href === '/boka-bord'
-                    ? 'ml-2 bg-[#C0623A] text-white hover:bg-[#D4795A] px-5 py-2 rounded'
-                    : ''
                 }`}
               >
                 {link.label}

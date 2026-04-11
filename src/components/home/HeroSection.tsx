@@ -144,10 +144,10 @@ export default function HeroSection({
             </svg>
           </Link>
           <Link
-            href="/boka-bord"
+            href="/kontakt"
             className="inline-flex items-center justify-center px-8 py-4 border border-[#FAF4EB]/30 text-[#FAF4EB] font-inter font-medium text-sm tracking-wide hover:bg-[#FAF4EB]/10 hover:border-[#FAF4EB]/60 transition-all duration-300 rounded"
           >
-            Boka bord
+            Kontakt
           </Link>
         </motion.div>
 

@@ -7,9 +7,7 @@ import AdminLunch from './sections/AdminLunch'
 import AdminContent from './sections/AdminContent'
 import AdminGallery from './sections/AdminGallery'
 import AdminMedia from './sections/AdminMedia'
-import AdminBookings from './sections/AdminBookings'
-
-type Section = 'menu' | 'lunch' | 'content' | 'media' | 'gallery' | 'bookings'
+type Section = 'menu' | 'lunch' | 'content' | 'media' | 'gallery'
 
 const navItems: { id: Section; label: string; icon: string }[] = [
   { id: 'menu', label: 'Menu Manager', icon: '🍽️' },
@@ -17,7 +15,6 @@ const navItems: { id: Section; label: string; icon: string }[] = [
   { id: 'content', label: 'Page Editor', icon: '📝' },
   { id: 'media', label: 'Media & Backgrounds', icon: '🎬' },
   { id: 'gallery', label: 'Gallery', icon: '🖼️' },
-  { id: 'bookings', label: 'Bookings', icon: '📅' },
 ]
 
 export default function AdminDashboard() {
@@ -76,7 +73,7 @@ export default function AdminDashboard() {
           {activeSection === 'content' && <AdminContent />}
           {activeSection === 'media' && <AdminMedia />}
           {activeSection === 'gallery' && <AdminGallery />}
-          {activeSection === 'bookings' && <AdminBookings />}
+
         </main>
       </div>
     </div>

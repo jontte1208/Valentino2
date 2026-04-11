@@ -90,14 +90,6 @@ export default function Footer() {
                   pizzeria-valentino@hotmail.com
                 </a>
               </li>
-              <li>
-                <Link
-                  href="/boka-bord"
-                  className="inline-flex items-center font-inter text-sm font-medium text-[#C0623A] hover:text-[#D4795A] transition-colors"
-                >
-                  Boka bord →
-                </Link>
-              </li>
             </ul>
           </div>
 

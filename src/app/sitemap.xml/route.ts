@@ -5,8 +5,7 @@ export async function GET() {
     { url: '/', priority: '1.0', changefreq: 'daily' },
     { url: '/meny', priority: '0.9', changefreq: 'weekly' },
     { url: '/veckans-lunch', priority: '0.9', changefreq: 'weekly' },
-    { url: '/boka-bord', priority: '0.8', changefreq: 'monthly' },
-    { url: '/om-oss', priority: '0.7', changefreq: 'monthly' },
+{ url: '/om-oss', priority: '0.7', changefreq: 'monthly' },
     { url: '/kontakt', priority: '0.7', changefreq: 'monthly' },
     { url: '/galleri', priority: '0.6', changefreq: 'monthly' },
   ]
