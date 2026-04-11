@@ -76,9 +76,16 @@ async function main() {
     { name: 'Cheesecake', description: 'New York cheesecake med blåbärssylt', price: 89, category: 'Efterrätter', order: 5 },
   ]
 
-  await prisma.menuItem.deleteMany()
+  // Upsert menu items by name+category so admin additions survive redeployments
   for (const item of menuItems) {
-    await prisma.menuItem.create({ data: item })
+    const existing = await prisma.menuItem.findFirst({
+      where: { name: item.name, category: item.category },
+    })
+    if (existing) {
+      await prisma.menuItem.update({ where: { id: existing.id }, data: item })
+    } else {
+      await prisma.menuItem.create({ data: item })
+    }
   }
 
   // ── Lunch Days ────────────────────────────────────────────────────────────
@@ -125,22 +132,27 @@ async function main() {
     },
   ]
 
-  await prisma.lunchDay.deleteMany()
-  for (const day of lunchDays) {
-    await prisma.lunchDay.create({ data: day })
+  // Only seed lunch days for current week if none exist yet
+  const existingDays = await prisma.lunchDay.count({ where: { weekNumber: currentWeek, year: currentYear } })
+  if (existingDays === 0) {
+    for (const day of lunchDays) {
+      await prisma.lunchDay.create({ data: day })
+    }
   }
 
   // ── Weekly Soup ───────────────────────────────────────────────────────────
-  await prisma.weeklySoup.deleteMany()
-  await prisma.weeklySoup.create({
-    data: {
-      weekNumber: currentWeek,
-      year: currentYear,
-      name: 'Tomatsoppa med bröd',
-      description: 'Krämig tomatsoppa med örter, serveras med nybakat bröd och smör',
-      price: 75,
-    },
-  })
+  const existingSoup = await prisma.weeklySoup.count({ where: { weekNumber: currentWeek, year: currentYear } })
+  if (existingSoup === 0) {
+    await prisma.weeklySoup.create({
+      data: {
+        weekNumber: currentWeek,
+        year: currentYear,
+        name: 'Tomatsoppa med bröd',
+        description: 'Krämig tomatsoppa med örter, serveras med nybakat bröd och smör',
+        price: 75,
+      },
+    })
+  }
 
   // ── Page Content ──────────────────────────────────────────────────────────
   const pageContents = [
@@ -176,13 +188,19 @@ async function main() {
     },
   ]
 
-  await prisma.pageContent.deleteMany()
+  // Upsert page content so admin edits on Railway are never overwritten
   for (const content of pageContents) {
-    await prisma.pageContent.create({ data: content })
+    await prisma.pageContent.upsert({
+      where: { key: content.key },
+      update: {},           // never overwrite existing values
+      create: content,
+    })
   }
 
   // ── Gallery Images ────────────────────────────────────────────────────────
-  await prisma.galleryImage.deleteMany()
+  // Only seed gallery if empty
+  const existingGallery = await prisma.galleryImage.count()
+  if (existingGallery === 0) {
   const galleryImages = [
     { filename: 'restaurant-interior.jpg', alt: 'Restaurangens mysiga interiör', order: 1 },
     { filename: 'pizza-fresh.jpg', alt: 'Nybakad pizza från ugnen', order: 2 },
@@ -193,6 +211,7 @@ async function main() {
   ]
   for (const img of galleryImages) {
     await prisma.galleryImage.create({ data: img })
+  }
   }
 
   console.log('✅ Seed completed — Valentino Hörby real data loaded!')

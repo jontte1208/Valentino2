@@ -12,7 +12,9 @@ interface MenuItem {
   order: number
 }
 
-const categories = ['Förrätter', 'Huvudrätter', 'Pizzor', 'Desserter', 'Drycker']
+const DEFAULT_CATEGORIES = [
+  'Förrätter', 'Plankor', 'Kebab', 'Sallader', 'Husmanskost', 'Pizzor', 'Efterrätter',
+]
 
 const emptyForm = {
   name: '',
@@ -107,6 +109,11 @@ export default function AdminMenu() {
     }
   }
 
+  // Derive categories from loaded items, falling back to defaults if DB is empty
+  const categories = items.length > 0
+    ? Array.from(new Set(items.map((i) => i.category))).sort()
+    : DEFAULT_CATEGORIES
+
   const filtered = filterCategory === 'All' ? items : items.filter((i) => i.category === filterCategory)
 
   return (
@@ -183,7 +190,7 @@ export default function AdminMenu() {
                 onChange={(e) => setForm({ ...form, category: e.target.value })}
                 className="w-full px-3 py-2 border border-gray-200 rounded text-sm font-inter focus:outline-none focus:border-[#C0623A] bg-white"
               >
-                {categories.map((c) => <option key={c} value={c}>{c}</option>)}
+                {(categories.length > 0 ? categories : DEFAULT_CATEGORIES).map((c) => <option key={c} value={c}>{c}</option>)}
               </select>
             </div>
             <div>
