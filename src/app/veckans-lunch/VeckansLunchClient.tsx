@@ -40,79 +40,85 @@ export default function VeckansLunchClient({ lunchDays, soup, weekNumber }: Veck
 
   return (
     <div className="bg-[#FAF4EB] min-h-screen">
-      {/* Header */}
-      <section className="relative py-32 bg-[#1C1C1C] overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-br from-[#2A1810]/60 to-[#1C1C1C]" />
-          <div className="absolute bottom-0 right-1/3 w-80 h-80 bg-[#C0623A]/10 rounded-full blur-3xl" />
-        </div>
-        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <span className="font-inter text-xs uppercase tracking-[0.3em] text-[#C0623A] font-medium">
-              Måndag–Fredag 11:00–14:30
-            </span>
-            <h1 className="font-playfair text-4xl lg:text-6xl font-bold text-[#FAF4EB] mt-4 mb-4">
-              Veckans lunch
-            </h1>
-            <p className="font-playfair text-xl italic text-[#C0623A]">Vecka {weekNumber}</p>
-            <div className="w-16 h-px bg-[#C0623A] mx-auto mt-6" />
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Lunch note */}
-      <section className="py-10 bg-[#C0623A]">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="font-inter text-white font-medium">
-            Alla luncher serveras med sallad, bröd och smör. Kaffe ingår. Välkommen!
+      {/* Page header — light, centered, elegant */}
+      <section className="pt-20 pb-14 px-4 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+          className="max-w-2xl mx-auto"
+        >
+          <div className="text-4xl mb-5">🗓</div>
+          <h1 className="font-playfair text-4xl lg:text-5xl font-bold text-[#1C1C1C] mb-4 leading-tight">
+            Veckans Lunch
+          </h1>
+          {/* Week pill badge */}
+          <span className="inline-block bg-[#C0623A]/15 text-[#C0623A] font-inter text-sm font-semibold px-5 py-1.5 rounded-full mb-6 tracking-wide">
+            Vecka {weekNumber}
+          </span>
+          <div className="w-12 h-px bg-[#C0623A] mx-auto mb-6" />
+          <p className="font-inter text-sm text-[#1C1C1C]/55 leading-relaxed">
+            Serveras måndag–fredag 11:30–15:00
+            <span className="mx-2 text-[#C0623A]/40">·</span>
+            Alla luncher inkluderar sallad, saft, kaffe och kaka
           </p>
-        </div>
+        </motion.div>
       </section>
 
-      {/* Lunch Days */}
-      <section className="py-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Lunch day cards */}
+      <section className="pb-20 px-4">
+        <div className="max-w-2xl mx-auto">
           {sortedDays.length === 0 ? (
-            <p className="font-inter text-center text-[#1C1C1C]/60 py-16">
-              Ingen lunchmeny tillgänglig för denna vecka ännu. Återkom snart!
-            </p>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="bg-white rounded-2xl border border-[#EDE3D7] p-12 text-center shadow-sm"
+            >
+              <div className="text-3xl mb-4">🍽️</div>
+              <p className="font-playfair text-xl text-[#1C1C1C]/50 italic">
+                Lunchmenyn för vecka {weekNumber} är inte publicerad än.
+              </p>
+              <p className="font-inter text-sm text-[#1C1C1C]/40 mt-2">
+                Återkom snart eller ring oss för mer info.
+              </p>
+            </motion.div>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-3">
               {sortedDays.map((day, index) => (
                 <motion.div
                   key={day.id}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="bg-white rounded-xl p-6 lg:p-8 border border-[#E8DDD0] hover:border-[#C0623A]/40 hover:shadow-md transition-all duration-300 group"
+                  transition={{ duration: 0.45, delay: index * 0.08 }}
+                  className="bg-white rounded-2xl border border-[#EDE3D7] shadow-sm overflow-hidden"
                 >
-                  <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
-                    <div className="flex items-start gap-5">
-                      <div className="flex-shrink-0 w-12 h-12 rounded-full bg-[#C0623A]/10 flex items-center justify-center">
-                        <span className="font-playfair text-sm font-bold text-[#C0623A]">
-                          {dayLabels[day.dayOfWeek]?.slice(0, 3)}
-                        </span>
-                      </div>
-                      <div>
-                        <span className="font-inter text-xs uppercase tracking-widest text-[#C0623A] font-medium">
-                          {dayLabels[day.dayOfWeek]}
-                        </span>
-                        <h2 className="font-playfair text-2xl font-bold text-[#1C1C1C] mt-1 mb-2 group-hover:text-[#C0623A] transition-colors">
-                          {day.dishName}
-                        </h2>
-                        <p className="font-inter text-sm text-[#1C1C1C]/60 leading-relaxed max-w-xl">
+                  <div className="flex items-stretch">
+                    {/* Day label strip */}
+                    <div className="w-24 flex-shrink-0 flex flex-col items-center justify-center bg-[#FAF0E6] border-r border-[#EDE3D7] py-5 px-3">
+                      <span className="font-playfair text-sm font-bold text-[#C0623A] text-center leading-tight">
+                        {dayLabels[day.dayOfWeek]}
+                      </span>
+                    </div>
+
+                    {/* Dish info */}
+                    <div className="flex-1 px-6 py-5 flex flex-col justify-center gap-1">
+                      <h2 className="font-playfair text-xl font-bold text-[#1C1C1C] leading-snug">
+                        {day.dishName}
+                      </h2>
+                      {day.description && (
+                        <p className="font-inter text-sm text-[#1C1C1C]/55 leading-relaxed">
                           {day.description}
                         </p>
-                      </div>
+                      )}
                     </div>
-                    <div className="sm:text-right flex-shrink-0">
-                      <span className="font-inter text-2xl font-bold text-[#C0623A]">{day.price} kr</span>
-                      <p className="font-inter text-xs text-[#1C1C1C]/50 mt-1">inkl. kaffe</p>
+
+                    {/* Price */}
+                    <div className="flex-shrink-0 flex flex-col items-center justify-center pr-6 pl-4 border-l border-[#EDE3D7]">
+                      <span className="font-playfair text-2xl font-bold text-[#C0623A]">
+                        {day.price}
+                      </span>
+                      <span className="font-inter text-xs text-[#1C1C1C]/45 mt-0.5">kr</span>
                     </div>
                   </div>
                 </motion.div>
@@ -120,36 +126,57 @@ export default function VeckansLunchClient({ lunchDays, soup, weekNumber }: Veck
             </div>
           )}
 
-          {/* Soup */}
+          {/* Weekly soup */}
           {soup && (
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="mt-8 bg-[#1C1C1C] rounded-xl p-8 text-[#FAF4EB]"
+              transition={{ duration: 0.5, delay: 0.35 }}
+              className="mt-5 bg-[#1C1C1C] rounded-2xl overflow-hidden shadow-md"
             >
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-full bg-[#C0623A]/20 flex items-center justify-center">
-                  <span className="text-lg">🍵</span>
+              <div className="flex items-stretch">
+                <div className="w-24 flex-shrink-0 flex flex-col items-center justify-center bg-[#2A2A2A] border-r border-white/10 py-5 px-3">
+                  <span className="text-2xl mb-1">🍵</span>
+                  <span className="font-inter text-[10px] uppercase tracking-widest text-[#C0623A] font-medium text-center leading-tight">
+                    Soppa
+                  </span>
                 </div>
-                <span className="font-inter text-xs uppercase tracking-widest text-[#C0623A] font-medium">
-                  Veckans soppa — hela veckan
-                </span>
-              </div>
-              <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
-                <div>
-                  <h3 className="font-playfair text-2xl font-bold text-[#FAF4EB] mb-2">{soup.name}</h3>
-                  <p className="font-inter text-sm text-[#FAF4EB]/60 leading-relaxed max-w-xl">
-                    {soup.description}
-                  </p>
+
+                <div className="flex-1 px-6 py-5 flex flex-col justify-center gap-1">
+                  <span className="font-inter text-[10px] uppercase tracking-widest text-[#C0623A]/80 font-medium">
+                    Hela veckan
+                  </span>
+                  <h3 className="font-playfair text-xl font-bold text-[#FAF4EB]">{soup.name}</h3>
+                  {soup.description && (
+                    <p className="font-inter text-sm text-[#FAF4EB]/50 leading-relaxed">{soup.description}</p>
+                  )}
                 </div>
-                <div className="flex-shrink-0">
-                  <span className="font-inter text-2xl font-bold text-[#C0623A]">{soup.price} kr</span>
+
+                <div className="flex-shrink-0 flex flex-col items-center justify-center pr-6 pl-4 border-l border-white/10">
+                  <span className="font-playfair text-2xl font-bold text-[#C0623A]">{soup.price}</span>
+                  <span className="font-inter text-xs text-[#FAF4EB]/35 mt-0.5">kr</span>
                 </div>
               </div>
             </motion.div>
           )}
+
+          {/* Info footer */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="mt-10 bg-white rounded-2xl border border-[#EDE3D7] px-6 py-5 text-center shadow-sm"
+          >
+            <p className="font-inter text-sm text-[#1C1C1C]/50 leading-relaxed">
+              <span className="text-[#C0623A] font-medium">Lunchen inkluderar</span>
+              {' '}sallad, saft, kaffe och kaka.
+              <br className="hidden sm:block" />
+              {' '}Välkommen in till oss på{' '}
+              <span className="text-[#1C1C1C]/70">Stortorget 2, Hörby</span>.
+            </p>
+          </motion.div>
         </div>
       </section>
     </div>
