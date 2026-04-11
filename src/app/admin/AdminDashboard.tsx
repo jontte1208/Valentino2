@@ -6,14 +6,16 @@ import AdminMenu from './sections/AdminMenu'
 import AdminLunch from './sections/AdminLunch'
 import AdminContent from './sections/AdminContent'
 import AdminGallery from './sections/AdminGallery'
+import AdminMedia from './sections/AdminMedia'
 import AdminBookings from './sections/AdminBookings'
 
-type Section = 'menu' | 'lunch' | 'content' | 'gallery' | 'bookings'
+type Section = 'menu' | 'lunch' | 'content' | 'media' | 'gallery' | 'bookings'
 
 const navItems: { id: Section; label: string; icon: string }[] = [
   { id: 'menu', label: 'Menu Manager', icon: '🍽️' },
   { id: 'lunch', label: 'Weekly Lunch', icon: '🥗' },
   { id: 'content', label: 'Page Editor', icon: '📝' },
+  { id: 'media', label: 'Media & Backgrounds', icon: '🎬' },
   { id: 'gallery', label: 'Gallery', icon: '🖼️' },
   { id: 'bookings', label: 'Bookings', icon: '📅' },
 ]
@@ -72,6 +74,7 @@ export default function AdminDashboard() {
           {activeSection === 'menu' && <AdminMenu />}
           {activeSection === 'lunch' && <AdminLunch />}
           {activeSection === 'content' && <AdminContent />}
+          {activeSection === 'media' && <AdminMedia />}
           {activeSection === 'gallery' && <AdminGallery />}
           {activeSection === 'bookings' && <AdminBookings />}
         </main>

@@ -3,25 +3,68 @@
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 
-export default function HeroSection() {
+interface HeroSectionProps {
+  bgVideo?: string
+  bgImage?: string
+}
+
+export default function HeroSection({ bgVideo, bgImage }: HeroSectionProps) {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-[#1C1C1C]">
-        {/* Warm gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#2A1810]/80 via-[#1C1C1C]/60 to-[#1C1C1C]/90" />
-        {/* Decorative circles */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#C0623A]/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-[#C0623A]/8 rounded-full blur-3xl" />
-        {/* Texture pattern */}
+        {/* Video background */}
+        {bgVideo && (
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+            poster={bgImage || undefined}
+          >
+            <source src={bgVideo} type="video/mp4" />
+          </video>
+        )}
+
+        {/* Image background (shown if no video, or as poster) */}
+        {!bgVideo && bgImage && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={bgImage}
+            alt="Hero background"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        )}
+
+        {/* Dark overlay — heavier on video so text stays readable */}
         <div
-          className="absolute inset-0 opacity-5"
-          style={{
-            backgroundImage:
-              'repeating-linear-gradient(45deg, #FAF4EB 0, #FAF4EB 1px, transparent 0, transparent 50%)',
-            backgroundSize: '20px 20px',
-          }}
+          className={`absolute inset-0 ${
+            bgVideo
+              ? 'bg-[#1C1C1C]/60'
+              : 'bg-gradient-to-br from-[#2A1810]/80 via-[#1C1C1C]/60 to-[#1C1C1C]/90'
+          }`}
         />
+
+        {/* Warm glow orbs (only shown without video) */}
+        {!bgVideo && (
+          <>
+            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#C0623A]/10 rounded-full blur-3xl" />
+            <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-[#C0623A]/8 rounded-full blur-3xl" />
+          </>
+        )}
+
+        {/* Texture pattern (only shown without video) */}
+        {!bgVideo && (
+          <div
+            className="absolute inset-0 opacity-5"
+            style={{
+              backgroundImage:
+                'repeating-linear-gradient(45deg, #FAF4EB 0, #FAF4EB 1px, transparent 0, transparent 50%)',
+              backgroundSize: '20px 20px',
+            }}
+          />
+        )}
       </div>
 
       {/* Content */}
