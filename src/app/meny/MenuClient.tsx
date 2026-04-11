@@ -16,6 +16,37 @@ interface MenuClientProps {
   menuItems: MenuItem[]
 }
 
+// All DB categories that belong to the "Pizzor" group
+const PIZZA_CATEGORIES = [
+  'Pizzor',
+  'Special Pizzor',
+  'Inbakade Pizzor',
+  'Vegetariska Pizzor',
+  'Mexikanska Pizzor',
+  'Oxfilé Pizzor',
+  'Kebabpizzor',
+  'Kycklingpizzor',
+]
+
+// Short labels shown in the sub-category pill row
+const PIZZA_SUB_LABELS: Record<string, string> = {
+  'Pizzor': 'Vanliga',
+  'Special Pizzor': 'Special',
+  'Inbakade Pizzor': 'Inbakade',
+  'Vegetariska Pizzor': 'Vegetariska',
+  'Mexikanska Pizzor': 'Mexikanska',
+  'Oxfilé Pizzor': 'Oxfilé',
+  'Kebabpizzor': 'Kebabpizzor',
+  'Kycklingpizzor': 'Kycklingpizzor',
+}
+
+// Canonical display order for the top-level filter
+const TOP_LEVEL_ORDER = [
+  'Förrätter', 'Plankor', 'Varmrätter', 'Barn Meny', 'Pasta',
+  '__PIZZOR__',   // placeholder for the grouped pizza button
+  'Kebab', 'Bakpotatis', 'Sallader', 'Drycker',
+]
+
 const categorySubtitles: Record<string, string> = {
   Förrätter: 'Smakrika aptitretare för att sätta stämningen — perfekta att dela',
   Plankor: 'Husets stolthet — kött och fisk tillagat till perfektion, serverat på planka',
@@ -57,14 +88,71 @@ const categoryAllergens: Record<string, string> = {
 }
 
 export default function MenuClient({ menuItems }: MenuClientProps) {
-  const availableCategories = Array.from(new Set(menuItems.map((i) => i.category)))
-  const allCategories = ['Alla', ...availableCategories]
   const [activeCategory, setActiveCategory] = useState('Alla')
+  // null = show all pizza subcategories, or a specific pizza cat name
+  const [activePizzaSub, setActivePizzaSub] = useState<string | null>(null)
 
-  const filtered =
-    activeCategory === 'Alla'
-      ? menuItems
-      : menuItems.filter((item) => item.category === activeCategory)
+  const dbCategoriesArr = Array.from(new Set(menuItems.map((i) => i.category)))
+  const dbCategories = new Set(dbCategoriesArr)
+
+  // Build ordered top-level filter list from items in the DB
+  const topLevelFilter: string[] = ['Alla']
+  for (const entry of TOP_LEVEL_ORDER) {
+    if (entry === '__PIZZOR__') {
+      if (PIZZA_CATEGORIES.some((c) => dbCategories.has(c))) {
+        topLevelFilter.push('Pizzor')
+      }
+    } else if (dbCategories.has(entry)) {
+      topLevelFilter.push(entry)
+    }
+  }
+  // Catch any DB categories not in our predefined order
+  for (const cat of dbCategoriesArr) {
+    if (!PIZZA_CATEGORIES.includes(cat) && !topLevelFilter.includes(cat)) {
+      topLevelFilter.push(cat)
+    }
+  }
+
+  // Pizza subcategories actually present in the DB, in canonical order
+  const availablePizzaSubs = PIZZA_CATEGORIES.filter((c) => dbCategories.has(c))
+
+  function handleTopClick(cat: string) {
+    setActiveCategory(cat)
+    setActivePizzaSub(null) // reset sub when switching top-level
+  }
+
+  // Determine which categories to render as sections
+  function renderSections() {
+    if (activeCategory === 'Alla') {
+      // Show everything in order
+      const allOrdered = [
+        ...TOP_LEVEL_ORDER.flatMap((e) =>
+          e === '__PIZZOR__' ? availablePizzaSubs : dbCategories.has(e) ? [e] : []
+        ),
+        ...dbCategoriesArr.filter(
+          (c) => !PIZZA_CATEGORIES.includes(c) && !TOP_LEVEL_ORDER.includes(c)
+        ),
+      ]
+      return allOrdered.map((cat) => {
+        const items = menuItems.filter((i) => i.category === cat)
+        if (items.length === 0) return null
+        return <CategorySection key={cat} category={cat} items={items} />
+      })
+    }
+
+    if (activeCategory === 'Pizzor') {
+      const subsToShow = activePizzaSub ? [activePizzaSub] : availablePizzaSubs
+      return subsToShow.map((cat) => {
+        const items = menuItems.filter((i) => i.category === cat)
+        if (items.length === 0) return null
+        return <CategorySection key={cat} category={cat} items={items} />
+      })
+    }
+
+    // Single non-pizza category
+    const items = menuItems.filter((i) => i.category === activeCategory)
+    return <CategorySection category={activeCategory} items={items} />
+  }
 
   return (
     <div className="bg-[#FAF4EB] min-h-screen">
@@ -97,11 +185,12 @@ export default function MenuClient({ menuItems }: MenuClientProps) {
       {/* Category Filter */}
       <section className="sticky top-16 lg:top-20 z-30 bg-[#FAF4EB]/95 backdrop-blur-sm border-b border-[#E8DDD0]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Top-level pills */}
           <div className="flex items-center gap-2 overflow-x-auto py-4 scrollbar-hide">
-            {allCategories.map((cat) => (
+            {topLevelFilter.map((cat) => (
               <button
                 key={cat}
-                onClick={() => setActiveCategory(cat)}
+                onClick={() => handleTopClick(cat)}
                 className={`flex-shrink-0 px-5 py-2 rounded-full font-inter text-sm font-medium transition-all duration-300 ${
                   activeCategory === cat
                     ? 'bg-[#C0623A] text-white shadow-md'
@@ -112,6 +201,48 @@ export default function MenuClient({ menuItems }: MenuClientProps) {
               </button>
             ))}
           </div>
+
+          {/* Pizza sub-category pills — only visible when Pizzor is active */}
+          <AnimatePresence>
+            {activeCategory === 'Pizzor' && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.2 }}
+                className="overflow-hidden"
+              >
+                <div className="flex items-center gap-2 overflow-x-auto pb-3 scrollbar-hide">
+                  <span className="flex-shrink-0 font-inter text-xs text-[#1C1C1C]/40 uppercase tracking-wider mr-1">
+                    Typ:
+                  </span>
+                  <button
+                    onClick={() => setActivePizzaSub(null)}
+                    className={`flex-shrink-0 px-4 py-1.5 rounded-full font-inter text-xs font-medium transition-all duration-300 ${
+                      activePizzaSub === null
+                        ? 'bg-[#1C1C1C] text-white'
+                        : 'bg-white text-[#1C1C1C]/65 hover:bg-[#1C1C1C]/10 hover:text-[#1C1C1C] border border-[#E8DDD0]'
+                    }`}
+                  >
+                    Alla pizzor
+                  </button>
+                  {availablePizzaSubs.map((cat) => (
+                    <button
+                      key={cat}
+                      onClick={() => setActivePizzaSub(cat)}
+                      className={`flex-shrink-0 px-4 py-1.5 rounded-full font-inter text-xs font-medium transition-all duration-300 ${
+                        activePizzaSub === cat
+                          ? 'bg-[#1C1C1C] text-white'
+                          : 'bg-white text-[#1C1C1C]/65 hover:bg-[#1C1C1C]/10 hover:text-[#1C1C1C] border border-[#E8DDD0]'
+                      }`}
+                    >
+                      {PIZZA_SUB_LABELS[cat] ?? cat}
+                    </button>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </section>
 
@@ -120,30 +251,13 @@ export default function MenuClient({ menuItems }: MenuClientProps) {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatePresence mode="wait">
             <motion.div
-              key={activeCategory}
+              key={activeCategory + (activePizzaSub ?? '')}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.3 }}
             >
-              {activeCategory === 'Alla' ? (
-                availableCategories.map((category) => {
-                  const items = menuItems.filter((item) => item.category === category)
-                  if (items.length === 0) return null
-                  return (
-                    <CategorySection
-                      key={category}
-                      category={category}
-                      items={items}
-                    />
-                  )
-                })
-              ) : (
-                <CategorySection
-                  category={activeCategory}
-                  items={filtered}
-                />
-              )}
+              {renderSections()}
             </motion.div>
           </AnimatePresence>
         </div>
