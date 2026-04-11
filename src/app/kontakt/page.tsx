@@ -23,8 +23,11 @@ function parseHours(raw: string): { day: string; hours: string }[] {
     .filter(Boolean) as { day: string; hours: string }[]
 }
 
+const DAY_NAMES = ['Söndag', 'Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lördag']
+
 export default function KontaktPage() {
   const [info, setInfo] = useState(DEFAULTS)
+  const todayName = DAY_NAMES[new Date().getDay()]
 
   useEffect(() => {
     fetch('/api/content')
@@ -103,68 +106,79 @@ export default function KontaktPage() {
         </div>
       </section>
 
-      <section className="py-20">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="font-playfair text-3xl font-bold text-[#1C1C1C] mb-8">
+            <h2 className="font-playfair text-3xl font-bold text-[#1C1C1C] mb-6">
               Hitta oss
             </h2>
 
-            {/* Contact info */}
-            <div className="bg-white rounded-xl border border-[#E8DDD0] divide-y divide-[#E8DDD0] mb-8">
-              {contactInfo.map((item) => (
-                <div key={item.label} className="flex items-center gap-4 px-5 py-4">
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-[#C0623A]/10 flex items-center justify-center text-[#C0623A]">
-                    {item.icon}
-                  </div>
-                  <div className="flex items-baseline gap-3 min-w-0">
-                    <span className="font-inter text-xs uppercase tracking-widest text-[#1C1C1C]/40 font-medium flex-shrink-0">
-                      {item.label}
-                    </span>
-                    {item.href ? (
-                      <a
-                        href={item.href}
-                        className="font-inter text-sm text-[#1C1C1C] hover:text-[#C0623A] transition-colors truncate"
-                      >
-                        {item.value}
-                      </a>
-                    ) : (
-                      <span className="font-inter text-sm text-[#1C1C1C] truncate">{item.value}</span>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
+            {/* Two-column grid: contact info + opening hours */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
 
-            {/* Opening hours */}
-            <div className="bg-[#1C1C1C] rounded-xl p-6 text-[#FAF4EB] mb-8">
-              <h3 className="font-playfair text-xl font-bold mb-4">Öppettider</h3>
-              <div className="space-y-3">
-                {hours.map((h) => (
-                  <div key={h.day} className="flex justify-between items-center">
-                    <span className="font-inter text-sm text-[#FAF4EB]/70">{h.day}</span>
-                    <span className="font-inter text-sm font-medium text-[#FAF4EB]">{h.hours}</span>
+              {/* Contact info card */}
+              <div className="bg-white rounded-2xl border border-[#E8DDD0] divide-y divide-[#E8DDD0]">
+                {contactInfo.map((item) => (
+                  <div key={item.label} className="flex items-center gap-3 px-5 py-4">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-[#C0623A]/10 flex items-center justify-center text-[#C0623A]">
+                      {item.icon}
+                    </div>
+                    <div className="min-w-0">
+                      <p className="font-inter text-[10px] uppercase tracking-widest text-[#1C1C1C]/40 font-medium leading-none mb-1">
+                        {item.label}
+                      </p>
+                      {item.href ? (
+                        <a
+                          href={item.href}
+                          className="font-inter text-sm text-[#1C1C1C] hover:text-[#C0623A] transition-colors"
+                        >
+                          {item.value}
+                        </a>
+                      ) : (
+                        <span className="font-inter text-sm text-[#1C1C1C]">{item.value}</span>
+                      )}
+                    </div>
                   </div>
                 ))}
-                <div className="pt-3 border-t border-[#FAF4EB]/10">
-                  <p className="font-inter text-xs text-[#FAF4EB]/50">
+              </div>
+
+              {/* Opening hours card */}
+              <div className="bg-[#1C1C1C] rounded-2xl p-6 text-[#FAF4EB] flex flex-col">
+                <h3 className="font-playfair text-lg font-bold mb-4">Öppettider</h3>
+                <div className="flex-1 space-y-2">
+                  {hours.map((h) => {
+                    const isToday = h.day === todayName
+                    return (
+                      <div key={h.day} className="flex justify-between items-center">
+                        <span className={`font-inter text-sm ${isToday ? 'text-[#C0623A] font-semibold' : 'text-[#FAF4EB]/60'}`}>
+                          {h.day}
+                        </span>
+                        <span className={`font-inter text-sm ${isToday ? 'text-[#C0623A] font-semibold' : 'text-[#FAF4EB]/90'}`}>
+                          {h.hours}
+                        </span>
+                      </div>
+                    )
+                  })}
+                </div>
+                <div className="mt-4 pt-3 border-t border-[#FAF4EB]/10">
+                  <p className="font-inter text-xs text-[#FAF4EB]/40">
                     Lunch: {info.lunch_hours}
                   </p>
                 </div>
               </div>
             </div>
 
-            {/* Map */}
-            <div className="rounded-xl overflow-hidden border border-[#E8DDD0]">
+            {/* Map — full width */}
+            <div className="rounded-2xl overflow-hidden border border-[#E8DDD0]">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2271.3!2d13.6597595!3d55.850975!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46542b3e3a3a3a3a%3A0x0!2sNygatan%2038%2C%20242%2031%20H%C3%B6rby!5e0!3m2!1ssv!2sse!4v1700000000000"
                 width="100%"
-                height="300"
+                height="340"
                 style={{ border: 0 }}
                 allowFullScreen
                 loading="lazy"
