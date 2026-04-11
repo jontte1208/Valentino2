@@ -1,7 +1,8 @@
-import { NextResponse } from 'next/server'
-import { getToken } from 'next-auth/jwt'
-import { NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { requireAuth } from '@/lib/requireAuth'
+
+export const dynamic = 'force-dynamic'
 
 export async function GET() {
   try {
@@ -15,19 +16,36 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-  const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET ?? 'valentino-secret-change-in-production' })
-  if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const unauth = await requireAuth(request)
+  if (unauth) return unauth
 
   try {
     const body = await request.json()
     const { name, description, price, category, pizzaType, order } = body
 
-    if (!name || !description || !price || !category) {
+    if (
+      typeof name !== 'string' || !name.trim() ||
+      typeof description !== 'string' ||
+      typeof category !== 'string' || !category.trim() ||
+      price === undefined || price === null
+    ) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
 
+    const priceNum = Number.parseFloat(String(price))
+    if (!Number.isFinite(priceNum) || priceNum < 0 || priceNum > 100000) {
+      return NextResponse.json({ error: 'Invalid price' }, { status: 400 })
+    }
+
     const item = await prisma.menuItem.create({
-      data: { name, description, price: parseFloat(price), category, pizzaType: pizzaType || null, order: order ?? 0 },
+      data: {
+        name: name.slice(0, 200),
+        description: description.slice(0, 1000),
+        price: priceNum,
+        category: category.slice(0, 100),
+        pizzaType: typeof pizzaType === 'string' && pizzaType ? pizzaType.slice(0, 100) : null,
+        order: Number.isFinite(Number(order)) ? Number(order) : 0,
+      },
     })
     return NextResponse.json(item, { status: 201 })
   } catch {

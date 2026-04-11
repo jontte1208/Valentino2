@@ -1,22 +1,31 @@
-import { NextResponse } from 'next/server'
-import { getToken } from 'next-auth/jwt'
-import { NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { unlink } from 'fs/promises'
 import path from 'path'
+import { requireAuth } from '@/lib/requireAuth'
+
+export const dynamic = 'force-dynamic'
 
 export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
-  const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET ?? 'valentino-secret-change-in-production' })
-  if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const unauth = await requireAuth(request)
+  if (unauth) return unauth
 
   try {
-    const id = parseInt(params.id)
-    const image = await prisma.galleryImage.findUnique({ where: { id } })
+    const id = Number.parseInt(params.id, 10)
+    if (!Number.isFinite(id) || id < 0) {
+      return NextResponse.json({ error: 'Invalid id' }, { status: 400 })
+    }
 
+    const image = await prisma.galleryImage.findUnique({ where: { id } })
     if (!image) return NextResponse.json({ error: 'Not found' }, { status: 404 })
 
-    const filePath = path.join(process.cwd(), 'public', 'uploads', image.filename)
-    await unlink(filePath).catch(() => {})
+    // Prevent path traversal via stored filename
+    const safeName = path.basename(image.filename)
+    const uploadDir = path.join(process.cwd(), 'public', 'uploads')
+    const filePath = path.join(uploadDir, safeName)
+    if (filePath.startsWith(uploadDir + path.sep)) {
+      await unlink(filePath).catch(() => {})
+    }
 
     await prisma.galleryImage.delete({ where: { id } })
     return NextResponse.json({ success: true })
@@ -26,16 +35,27 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
 }
 
 export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
-  const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET ?? 'valentino-secret-change-in-production' })
-  if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const unauth = await requireAuth(request)
+  if (unauth) return unauth
 
   try {
-    const id = parseInt(params.id)
-    const { alt, order } = await request.json()
+    const id = Number.parseInt(params.id, 10)
+    if (!Number.isFinite(id) || id < 0) {
+      return NextResponse.json({ error: 'Invalid id' }, { status: 400 })
+    }
+
+    const body = await request.json()
+    const alt = typeof body.alt === 'string' ? body.alt.slice(0, 200) : undefined
+    const order = typeof body.order === 'number' && Number.isFinite(body.order)
+      ? body.order
+      : undefined
 
     const image = await prisma.galleryImage.update({
       where: { id },
-      data: { ...(alt !== undefined && { alt }), ...(order !== undefined && { order }) },
+      data: {
+        ...(alt !== undefined && { alt }),
+        ...(order !== undefined && { order }),
+      },
     })
     return NextResponse.json(image)
   } catch {
