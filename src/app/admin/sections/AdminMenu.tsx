@@ -13,7 +13,8 @@ interface MenuItem {
 }
 
 const DEFAULT_CATEGORIES = [
-  'Förrätter', 'Plankor', 'Kebab', 'Sallader', 'Husmanskost', 'Pizzor', 'Efterrätter',
+  'Pizzor', 'Special Pizzor', 'Taco Pizzor', 'Italiensk Pizza', 'Kycklingpizzor',
+  'Sallader', 'Kebab', 'Falafel', 'Hamburgare', 'À la Carte', 'Drycker',
 ]
 
 const emptyForm = {

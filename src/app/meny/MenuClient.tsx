@@ -17,23 +17,31 @@ interface MenuClientProps {
 }
 
 const categorySubtitles: Record<string, string> = {
-  Förrätter: 'Välj ett av våra smakrika tilltugg för att starta måltiden',
-  Plankor: 'Grillade delikatesser serverade på varm planka med tillbehör',
-  Kebab: 'Kryddiga, saftiga rätter tillagade efter traditionella recept',
-  Sallader: 'Fräscha kombinationer med smakrika dressingar',
-  Husmanskost: 'Svenska klassiker tillagade med kärlek och tradition',
-  Pizzor: 'Hemlagad deg, färska råvaror – klassiska favoriter från vedugnen',
-  Efterrätter: 'Avsluta måltiden med något sött och oförglömligt',
+  Pizzor: 'Klassiska svenska pizzor med nummersatta favoriter — handgjord deg, färska råvaror',
+  'Special Pizzor': 'Husets egna kreationer med generösa pålägg och karaktärsfulla smakkombinationer',
+  'Taco Pizzor': 'Heta pizzor med tex-mex-twist — jalapeño, tacokryddor och kebabsås',
+  'Italiensk Pizza': 'Premium-pizzor med mozzarella och lufttorkade delikatesser från Italien',
+  Kycklingpizzor: 'Saftiga kycklingpizzor och vår populära husets kebabpizza',
+  Sallader: 'Fräscha, generösa sallader med smakrika dressingar — perfekta för en lättare måltid',
+  Kebab: 'Grillat nötkött tillagat på traditionellt sätt, serveras på olika vis',
+  Falafel: 'Hemlagade falafelbullar — ett välsmakande vegetariskt alternativ',
+  Hamburgare: 'Husets hemlagade burgare — 200g grillad nötkött med klassiska tillbehör',
+  'À la Carte': 'Husets specialrätter och signaturrätter för den som vill ha något extra',
+  Drycker: 'Kalla drycker till din måltid',
 }
 
 const categoryAllergens: Record<string, string> = {
-  Förrätter: 'Gluten, Laktos, Skaldjur',
-  Plankor: 'Gluten, Laktos, Selleri',
-  Kebab: 'Gluten, Sesam, Selleri',
-  Sallader: 'Kan innehålla nötter, fisk och skaldjur',
-  Husmanskost: 'Gluten, Laktos, Ägg',
   Pizzor: 'Gluten, Laktos, Ägg',
-  Efterrätter: 'Gluten, Laktos, Ägg',
+  'Special Pizzor': 'Gluten, Laktos, Ägg',
+  'Taco Pizzor': 'Gluten, Laktos',
+  'Italiensk Pizza': 'Gluten, Laktos',
+  Kycklingpizzor: 'Gluten, Laktos, Selleri',
+  Sallader: 'Ägg, Fisk, Skaldjur — fråga personalen',
+  Kebab: 'Gluten, Selleri, Sesam',
+  Falafel: 'Gluten, Sesam',
+  Hamburgare: 'Gluten, Laktos, Ägg, Sesam',
+  'À la Carte': 'Varierar — fråga personalen',
+  Drycker: '',
 }
 
 export default function MenuClient({ menuItems }: MenuClientProps) {

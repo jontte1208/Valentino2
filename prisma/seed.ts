@@ -17,63 +17,108 @@ async function main() {
   const currentYear = new Date().getFullYear()
 
   // ── Menu Items ────────────────────────────────────────────────────────────
+  // Real menu scraped from Restaurang Hörnan Valentino, Hörby
   const menuItems = [
-    // Förrätter
-    { name: 'Vitlöksbröd', description: 'Hemgjort bröd med vitlökssmör och örter', price: 129, category: 'Förrätter', order: 1 },
-    { name: 'Bruschetta', description: 'Rostade bröd med tomat, basilika och mozzarella', price: 79, category: 'Förrätter', order: 2 },
-    { name: 'Räksmörgås', description: 'Handskalade räkor på rostat bröd med dill och citron', price: 95, category: 'Förrätter', order: 3 },
-    { name: 'Mozzarella Sticks', description: 'Friterade mozzarellastavar med marinara sås', price: 85, category: 'Förrätter', order: 4 },
-    { name: 'Toast Skagen', description: 'Rostade bröd med handskalade räkor, majonnäs, dill och citron', price: 105, category: 'Förrätter', order: 5 },
-    { name: 'Tapas', description: 'Blandat urval av smårätter och tilltugg', price: 89, category: 'Förrätter', order: 6 },
+    // ── Ordinarie Pizzor ──────────────────────────────────────────────────
+    { name: '1. Milano', description: 'Tomat, ost, skinka', price: 120, category: 'Pizzor', order: 1 },
+    { name: '2. Sicilia', description: 'Tomat, ost, champinjoner', price: 120, category: 'Pizzor', order: 2 },
+    { name: '3. Tonno', description: 'Tomat, ost, tonfisk', price: 125, category: 'Pizzor', order: 3 },
+    { name: '4. Palermo', description: 'Tomat, ost, köttfärs, lök', price: 125, category: 'Pizzor', order: 4 },
+    { name: '5. Capricciosa', description: 'Tomat, ost, skinka, champinjoner', price: 125, category: 'Pizzor', order: 5 },
+    { name: '6. Hawaii', description: 'Tomat, ost, skinka, ananas', price: 125, category: 'Pizzor', order: 6 },
+    { name: '7. Catarina', description: 'Tomat, ost, räkor', price: 125, category: 'Pizzor', order: 7 },
+    { name: '8. Calzone', description: 'Tomat, ost, skinka (inbakad)', price: 125, category: 'Pizzor', order: 8 },
+    { name: '9. Bolognese', description: 'Tomat, ost, köttfärs (inbakad)', price: 125, category: 'Pizzor', order: 9 },
+    { name: '10. Bari', description: 'Tomat, ost, salami', price: 125, category: 'Pizzor', order: 10 },
+    { name: '11. Capri', description: 'Tomat, ost, skinka, räkor', price: 125, category: 'Pizzor', order: 11 },
+    { name: '12. Sorvento', description: 'Tomat, ost, räkor, musslor', price: 130, category: 'Pizzor', order: 12 },
+    { name: '13. Amigo', description: 'Tomat, ost, köttfärs, champinjoner, paprika', price: 130, category: 'Pizzor', order: 13 },
+    { name: '14. Corallo', description: 'Tomat, ost, bacon, lök, paprika', price: 130, category: 'Pizzor', order: 14 },
+    { name: '15. Roma', description: 'Tomat, ost, räkor, tonfisk', price: 130, category: 'Pizzor', order: 15 },
+    { name: '16. Blecko', description: 'Tomat, ost, champinjoner, räkor', price: 130, category: 'Pizzor', order: 16 },
+    { name: '17. Jamaica', description: 'Tomat, ost, skinka, räkor, champinjoner', price: 130, category: 'Pizzor', order: 17 },
+    { name: '18. Le Marre', description: 'Tomat, ost, räkor, krabbstick', price: 130, category: 'Pizzor', order: 18 },
+    { name: '19. Quattro Stagioni', description: 'Tomat, ost, skinka, champinjoner, räkor, musslor, kronärtskocka', price: 130, category: 'Pizzor', order: 19 },
+    { name: '20. Vegetaria', description: 'Tomat, ost, champinjoner, lök, paprika, ananas, kronärtskocka', price: 130, category: 'Pizzor', order: 20 },
 
-    // Plankor
-    { name: 'Biff Planka', description: 'Grillad entrecôte med bearnaisesås, pommes frites och sallad', price: 189, category: 'Plankor', order: 1 },
-    { name: 'Lax Planka', description: 'Grillad lax med hollandaisesås, kokt potatis och grönsaker', price: 169, category: 'Plankor', order: 2 },
-    { name: 'Vegetarisk Planka', description: 'Grillad halloumi med tzatziki, rostade grönsaker och bulgur', price: 149, category: 'Plankor', order: 3 },
-    { name: 'Kyckling Planka', description: 'Grillad kycklingfilé med curry-yoghurt, ris och grönsaker', price: 159, category: 'Plankor', order: 4 },
-    { name: 'Fläsk Planka', description: 'Grillad fläskfilé med äppelchutney, hasselbackspotatis och rödvinssås', price: 179, category: 'Plankor', order: 5 },
-    { name: 'Lamm Planka', description: 'Grillad lammfilé med rosmarin, klyftpotatis och rödvinssås', price: 199, category: 'Plankor', order: 6 },
+    // ── Special Pizzor ────────────────────────────────────────────────────
+    { name: '21. Disco', description: 'Tomat, ost, skinka, köttfärs, räkor', price: 130, category: 'Special Pizzor', order: 1 },
+    { name: '22. Levande Livet', description: 'Tomat, ost, skinka, ananas, banan', price: 130, category: 'Special Pizzor', order: 2 },
+    { name: '23. Altono', description: 'Tomat, ost, skinka, räkor, krabbstick (inbakad)', price: 130, category: 'Special Pizzor', order: 3 },
+    { name: '24. Emilia', description: 'Tomat, ost, skinka, räkor, champinjoner, tonfisk', price: 130, category: 'Special Pizzor', order: 4 },
+    { name: '25. Sussie', description: 'Tomat, ost, champinjoner, lök, ägg, fläskfilé, kryddor', price: 130, category: 'Special Pizzor', order: 5 },
+    { name: '26. Elisabet', description: 'Tomat, ost, paprika, lök, fläskfilé, färska tomater, kryddor', price: 130, category: 'Special Pizzor', order: 6 },
+    { name: '27. Ciao Ciao', description: 'Tomat, ost, champinjoner, lök, vitlök, fläskfilé (inbakad)', price: 130, category: 'Special Pizzor', order: 7 },
+    { name: '28. Dino', description: 'Tomat, ost, oxfilé, lök, bearnaisesås (inbakad)', price: 130, category: 'Special Pizzor', order: 8 },
+    { name: '29. Donna Grazia', description: 'Tomat, ost, champinjoner, oxfilé, lök, bearnaisesås', price: 130, category: 'Special Pizzor', order: 9 },
+    { name: '30. Opera', description: 'Tomat, ost, champinjoner, bacon, salami, lök', price: 130, category: 'Special Pizzor', order: 10 },
+    { name: '31. Indiana', description: 'Tomat, ost, kyckling, banan, räkor, champinjoner', price: 130, category: 'Special Pizzor', order: 11 },
+    { name: '32. Mexicana', description: 'Tomat, ost, köttfärs, färsk paprika, lök (het)', price: 130, category: 'Special Pizzor', order: 12 },
+    { name: '33. Tropicana', description: 'Tomat, ost, skinka, fläskfilé, räkor, banan', price: 130, category: 'Special Pizzor', order: 13 },
+    { name: '34. Provencale', description: 'Tomat, ost, champinjoner, oxfilé, paprika', price: 130, category: 'Special Pizzor', order: 14 },
+    { name: '35. Jackpott', description: 'Tomat, ost, skinka, champinjoner, oxfilé, lök', price: 130, category: 'Special Pizzor', order: 15 },
+    { name: '36. Shazam', description: 'Tomat, ost, champinjoner, räkor, gorgonzolaost', price: 130, category: 'Special Pizzor', order: 16 },
+    { name: '37. Husets Pizza', description: 'Tomat, ost, oxfilé, gorgonzolaost', price: 130, category: 'Special Pizzor', order: 17 },
+    { name: '38. M.A.I', description: 'Tomat, ost, skinka, lök, kebabkött, kebabsås', price: 130, category: 'Special Pizzor', order: 18 },
+    { name: '39. Eli', description: 'Tomat, ost, champinjoner, lök, kebabkött, bearnaisesås, peperoni', price: 130, category: 'Special Pizzor', order: 19 },
+    { name: '40. Poker', description: 'Tomat, ost, champinjoner, oxfilé, fläskfilé, bearnaisesås', price: 130, category: 'Special Pizzor', order: 20 },
+    { name: '41. Valentino', description: 'Tomat, ost, skinka, champinjoner, lök, fläskfilé, bearnaisesås', price: 130, category: 'Special Pizzor', order: 21 },
 
-    // Kebab
-    { name: 'Kebab Tallrik', description: 'Kebabkött med pommes frites, sallad och valfri sås', price: 129, category: 'Kebab', order: 1 },
-    { name: 'Kebabrulle', description: 'Kebabkött i tunnbröd med sallad och sås', price: 89, category: 'Kebab', order: 2 },
-    { name: 'Kyckling Kebab', description: 'Marinerad kycklingkebab med ris, sallad och tzatziki', price: 135, category: 'Kebab', order: 3 },
-    { name: 'Falafel Tallrik', description: 'Hemgjorda falafelbullar med hummus, sallad och pitabröd', price: 119, category: 'Kebab', order: 4 },
-    { name: 'Mix Kebab', description: 'Blandning av kött- och kycklingkebab med pommes och sallad', price: 149, category: 'Kebab', order: 5 },
-    { name: 'Kebab Pizza', description: 'Pizza med kebabkött, lök, tomat och kebabsås', price: 155, category: 'Kebab', order: 6 },
+    // ── Taco Pizzor ───────────────────────────────────────────────────────
+    { name: 'Acapulco', description: 'Tomat, ost, oxfilé, champinjoner, vitlök, jalapeño, tacokryddor (het)', price: 130, category: 'Taco Pizzor', order: 1 },
+    { name: 'Don Pedro', description: 'Tomat, ost, skinka, köttfärs, lök, vitlök, jalapeño, tacokryddor (het)', price: 130, category: 'Taco Pizzor', order: 2 },
+    { name: 'El Paso', description: 'Tomat, ost, fläskfilé, champinjoner, lök, tacokrydda, jalapeño, kebabsås (het)', price: 130, category: 'Taco Pizzor', order: 3 },
+    { name: 'Gringo', description: 'Tomat, ost, champinjoner, lök, jalapeño, tacokrydda, kebabkött, kebabsås', price: 130, category: 'Taco Pizzor', order: 4 },
 
-    // Sallader
-    { name: 'Caesar Sallad', description: 'Romansallad, krutonger, parmesan och caesardressing', price: 109, category: 'Sallader', order: 1 },
-    { name: 'Grekisk Sallad', description: 'Tomat, gurka, rödlök, oliver, fetaost och olivolja', price: 99, category: 'Sallader', order: 2 },
-    { name: 'Kyckling Caesar', description: 'Caesar sallad med grillad kycklingfilé', price: 139, category: 'Sallader', order: 3 },
-    { name: 'Räksallad', description: 'Handskalade räkor med avokado, tomat och dill', price: 149, category: 'Sallader', order: 4 },
-    { name: 'Halloumi Sallad', description: 'Grillad halloumi med blandade gröna blad och balsamico', price: 129, category: 'Sallader', order: 5 },
-    { name: 'Tonfisk Sallad', description: 'Färsk tonfisk med bönor, ägg och kapris', price: 159, category: 'Sallader', order: 6 },
+    // ── Italiensk Pizza ───────────────────────────────────────────────────
+    { name: 'Parma Special', description: 'Tomat, ost, mozzarella, färska champinjoner, lufttorkad skinka, lök', price: 140, category: 'Italiensk Pizza', order: 1 },
+    { name: 'Aten Special', description: 'Tomat, ost, mozzarella, färska champinjoner, salladsost, svarta oliver', price: 140, category: 'Italiensk Pizza', order: 2 },
+    { name: 'Pisa Special', description: 'Tomat, ost, mozzarella, färska champinjoner, salami, lök', price: 140, category: 'Italiensk Pizza', order: 3 },
+    { name: 'Tigris', description: 'Tomat, ost, mozzarella, färska champinjoner, lufttorkad skinka, ruccolasallad', price: 140, category: 'Italiensk Pizza', order: 4 },
+    { name: '4 Ostar', description: 'Ost, salladsost, gorgonzolaost, mozzarella', price: 140, category: 'Italiensk Pizza', order: 5 },
 
-    // Husmanskost
-    { name: 'Köttbullar med potatismos', description: 'Hemgjorda köttbullar med potatismos, gräddsås och lingonsylt', price: 139, category: 'Husmanskost', order: 1 },
-    { name: 'Pannbiff med lök', description: 'Pannbiff med stekt lök, kokt potatis och gräddsås', price: 149, category: 'Husmanskost', order: 2 },
-    { name: 'Kalops', description: 'Klassisk kalops med kokt potatis och rödbetor', price: 155, category: 'Husmanskost', order: 3 },
-    { name: 'Janssons frestelse', description: 'Potatisgratäng med ansjovis och grädde', price: 129, category: 'Husmanskost', order: 4 },
-    { name: 'Wallenbergare', description: 'Kalvfärs med ärtor, morötter och kokt potatis', price: 169, category: 'Husmanskost', order: 5 },
-    { name: 'Ärtsoppa med fläsk', description: 'Klassisk gul ärtsoppa med fläsk och pannkakor', price: 119, category: 'Husmanskost', order: 6 },
-    { name: 'Fiskgratäng', description: 'Torsk i ugn med dill, räkor och potatismos', price: 159, category: 'Husmanskost', order: 7 },
-    { name: 'Kött och potatis', description: 'Kokt nötkött med kokt potatis, rödbetor och pepparrotssås', price: 145, category: 'Husmanskost', order: 8 },
+    // ── Kycklingpizzor ────────────────────────────────────────────────────
+    { name: 'Kycklingpizza', description: 'Tomat, lök, kyckling, sås', price: 130, category: 'Kycklingpizzor', order: 1 },
+    { name: '50/50', description: 'Kyckling, kebabkött, kebabsås, färska tomater', price: 130, category: 'Kycklingpizzor', order: 2 },
+    { name: 'Hörnans Kebabpizza', description: 'Kebabkött, isbergsallad, tomat, gurka, lök, peperoni, mild dressing', price: 95, category: 'Kycklingpizzor', order: 3 },
 
-    // Pizza
-    { name: 'Margherita', description: 'Klassisk pizza med tomatsås, mozzarella och basilika', price: 149, category: 'Pizzor', pizzaType: 'regular', order: 1 },
-    { name: 'Vesuvio', description: 'Pizza med tomatsås, mozzarella och skinka', price: 159, category: 'Pizzor', pizzaType: 'regular', order: 2 },
-    { name: 'Hawaii', description: 'Pizza med tomatsås, mozzarella, skinka och ananas', price: 159, category: 'Pizzor', pizzaType: 'regular', order: 3 },
-    { name: 'Pepperoni', description: 'Pizza med tomatsås, mozzarella och pepperoni', price: 169, category: 'Pizzor', pizzaType: 'regular', order: 4 },
-    { name: 'Flygande Jacob', description: 'Pizza med kyckling, banan, jordnötter och curry', price: 123, category: 'Pizzor', pizzaType: 'regular', order: 5 },
-    { name: 'Kebabpizza', description: 'Pizza med kebabkött, lök, tomat och kebabsås', price: 135, category: 'Pizzor', pizzaType: 'regular', order: 6 },
+    // ── Sallader ──────────────────────────────────────────────────────────
+    { name: 'Amerikansk sallad', description: 'Sallad, tomat, gurka, majs, skinka, ost, ananas, ägg', price: 130, category: 'Sallader', order: 1 },
+    { name: 'Hawaiisallad', description: 'Sallad, tomat, gurka, kyckling, banan, paprika, ananas', price: 130, category: 'Sallader', order: 2 },
+    { name: 'Räksallad', description: 'Sallad, tomat, gurka, majs, paprika, räkor, ägg', price: 130, category: 'Sallader', order: 3 },
+    { name: 'Tonfisksallad', description: 'Sallad, tomat, gurka, lök, majs, tonfisk, oliver', price: 130, category: 'Sallader', order: 4 },
+    { name: 'Grekisk sallad', description: 'Sallad, tomat, gurka, lök, paprika, oliver, salladsost', price: 130, category: 'Sallader', order: 5 },
+    { name: 'Västkustsallad', description: 'Sallad, tomat, gurka, champinjoner, musslor, räkor', price: 130, category: 'Sallader', order: 6 },
+    { name: 'Kycklingsallad', description: 'Sallad, tomat, gurka, majs, paprika, kyckling, ananas', price: 130, category: 'Sallader', order: 7 },
 
-    // Efterrätter
-    { name: 'Chokladmousse', description: 'Krämig chokladmousse med vispad grädde', price: 75, category: 'Efterrätter', order: 1 },
-    { name: 'Tiramisu', description: 'Klassisk italiensk tiramisu med kaffe och mascarpone', price: 85, category: 'Efterrätter', order: 2 },
-    { name: 'Pannacotta', description: 'Vaniljpannacotta med färska bär', price: 79, category: 'Efterrätter', order: 3 },
-    { name: 'Glass (3 kulor)', description: 'Vanilj, choklad eller jordgubb med vispad grädde', price: 65, category: 'Efterrätter', order: 4 },
-    { name: 'Cheesecake', description: 'New York cheesecake med blåbärssylt', price: 89, category: 'Efterrätter', order: 5 },
+    // ── Kebab ─────────────────────────────────────────────────────────────
+    { name: 'Kebab med bröd (liten)', description: 'Kebabkött med nötkött i tunnbröd med sallad och sås', price: 120, category: 'Kebab', order: 1 },
+    { name: 'Kebab med bröd (stor)', description: 'Stor kebab med nötkött i tunnbröd med sallad och sås', price: 130, category: 'Kebab', order: 2 },
+    { name: 'Kebab med ris', description: 'Kebabkött serverat med ris, sallad och sås', price: 130, category: 'Kebab', order: 3 },
+    { name: 'Kebab hawaii', description: 'Kebabkött med ananas, sallad och sås', price: 130, category: 'Kebab', order: 4 },
+    { name: 'Kebab tallrik', description: 'Kebabkött med pommes frites, sallad och sås', price: 130, category: 'Kebab', order: 5 },
+    { name: 'Kebab special', description: 'Kebabkött med pommes, sallad, tomat, lök och sås', price: 130, category: 'Kebab', order: 6 },
+    { name: 'Kebab rulle', description: 'Kebabkött i tunnbröd med sallad, tomat, lök och sås', price: 130, category: 'Kebab', order: 7 },
+
+    // ── Falafel ───────────────────────────────────────────────────────────
+    { name: 'Falafel med pommes', description: 'Hemlagad falafel serverad med pommes frites', price: 125, category: 'Falafel', order: 1 },
+    { name: 'Falafel med sallad', description: 'Hemlagad falafel serverad med sallad', price: 125, category: 'Falafel', order: 2 },
+    { name: 'Falafel med bröd', description: 'Hemlagad falafel i tunnbröd med sallad och sås', price: 125, category: 'Falafel', order: 3 },
+    { name: 'Falafel rulle', description: 'Hemlagad falafel i tunnbrödsrulle med sallad och sås', price: 125, category: 'Falafel', order: 4 },
+    { name: 'Falafel med ris', description: 'Hemlagad falafel serverad med ris och sallad', price: 125, category: 'Falafel', order: 5 },
+
+    // ── Hamburgare ────────────────────────────────────────────────────────
+    { name: 'Hörnans Hemlagade Burger', description: 'Grillad burgare 200g med cheddar & bacon, dillgurka, tomat, lök & majonnäs, serveras med pommes', price: 145, category: 'Hamburgare', order: 1 },
+
+    // ── À la Carte ────────────────────────────────────────────────────────
+    { name: 'Gambas', description: 'Räkor i vitlök, chili & citron, serveras med bröd', price: 99, category: 'À la Carte', order: 1 },
+    { name: 'Fettuccine al filetto', description: 'Färsk fettuccine med oxfilé, krämig svampsås, färskriven parmesan', price: 135, category: 'À la Carte', order: 2 },
+    { name: 'Löjromspizza', description: 'Löjrom, mozzarella, crème fraîche, gräslök, rödlök, dill', price: 139, category: 'À la Carte', order: 3 },
+    { name: 'Hörnans Grillmix', description: 'Oxfilé, fläskfilé, kycklingfilé, kryddkorv & grillgrönsaker, bearnaisesås', price: 195, category: 'À la Carte', order: 4 },
+
+    // ── Drycker ───────────────────────────────────────────────────────────
+    { name: 'Läsk burk 33cl', description: 'Coca-Cola, Fanta, Sprite eller annan läsk', price: 23, category: 'Drycker', order: 1 },
+    { name: 'Läsk PET 50cl', description: 'Coca-Cola, Fanta, Sprite eller annan läsk', price: 28, category: 'Drycker', order: 2 },
   ]
 
   // Upsert menu items by name+category so admin additions survive redeployments
@@ -89,50 +134,15 @@ async function main() {
   }
 
   // ── Lunch Days ────────────────────────────────────────────────────────────
+  // Only seed lunch days for current week if none exist yet
+  // Admin should update these weekly via the admin panel or Facebook
   const lunchDays = [
-    {
-      weekNumber: currentWeek,
-      year: currentYear,
-      dayOfWeek: 'monday',
-      dishName: 'Pasta Bolognese',
-      description: 'Pasta med klassisk köttfärssås och riven parmesan. Serveras med sallad och bröd',
-      price: 99,
-    },
-    {
-      weekNumber: currentWeek,
-      year: currentYear,
-      dayOfWeek: 'tuesday',
-      dishName: 'Kycklinggryta med ris',
-      description: 'Krämig kycklinggryta med paprika och lök, serveras med ris och sallad',
-      price: 99,
-    },
-    {
-      weekNumber: currentWeek,
-      year: currentYear,
-      dayOfWeek: 'wednesday',
-      dishName: 'Capricciosa',
-      description: 'Pizza med tomatsås, ost, skinka och champinjoner. Serveras med sallad',
-      price: 99,
-    },
-    {
-      weekNumber: currentWeek,
-      year: currentYear,
-      dayOfWeek: 'thursday',
-      dishName: 'Pasta Carbonara',
-      description: 'Pasta med gräddsås, bacon och parmesan. Serveras med sallad och bröd',
-      price: 99,
-    },
-    {
-      weekNumber: currentWeek,
-      year: currentYear,
-      dayOfWeek: 'friday',
-      dishName: 'Kebabpizza',
-      description: 'Pizza med tomatsås, ost, kebab, lök och paprika. Serveras med sallad',
-      price: 99,
-    },
+    { weekNumber: currentWeek, year: currentYear, dayOfWeek: 'tuesday', dishName: 'Capricciosa', description: 'Pizza med tomatsås, ost, skinka och champinjoner. Serveras med sallad', price: 99 },
+    { weekNumber: currentWeek, year: currentYear, dayOfWeek: 'wednesday', dishName: 'Kebabpizza', description: 'Pizza med kebabkött, lök, tomat och sås. Serveras med sallad', price: 99 },
+    { weekNumber: currentWeek, year: currentYear, dayOfWeek: 'thursday', dishName: 'Hawaii', description: 'Pizza med tomatsås, ost, skinka och ananas. Serveras med sallad', price: 99 },
+    { weekNumber: currentWeek, year: currentYear, dayOfWeek: 'friday', dishName: 'Räksallad', description: 'Sallad med räkor, tomat, gurka, majs och paprika', price: 99 },
   ]
 
-  // Only seed lunch days for current week if none exist yet
   const existingDays = await prisma.lunchDay.count({ where: { weekNumber: currentWeek, year: currentYear } })
   if (existingDays === 0) {
     for (const day of lunchDays) {
@@ -179,12 +189,12 @@ async function main() {
     { key: 'email', value: 'pizzeria-valentino@hotmail.com' },
     {
       key: 'opening_hours',
-      value: 'Måndag: 11:30–22:00\nTisdag: 11:00–22:00\nOnsdag: 11:30–22:00\nTorsdag: 11:30–22:00\nFredag: 11:30–23:00\nLördag: 12:00–23:00\nSöndag: 13:00–21:00',
+      value: 'Måndag: 13:00–21:00\nTisdag: 11:30–22:00\nOnsdag: 11:00–22:00\nTorsdag: 11:30–22:00\nFredag: 11:30–22:00\nLördag: 11:30–23:00\nSöndag: 12:00–23:00',
     },
-    { key: 'lunch_hours', value: 'Måndag–Fredag: 11:00–14:30' },
+    { key: 'lunch_hours', value: 'Tisdag–Fredag: 11:30–14:00' },
     {
       key: 'meta_description',
-      value: 'Restaurang Hörnan Valentino — Pizzeria & Restaurang i Hörby, Skåne. Pizza, kebab, pasta och mer. Öppet alla dagar. Nygatan 38, 242 31 Hörby. Tel: 0415-100 39.',
+      value: 'Restaurang Hörnan Valentino — Pizzeria & Restaurang i Hörby, Skåne. Pizza, kebab, sallader och mer. Öppet alla dagar. Nygatan 38, 242 31 Hörby. Tel: 0415-100 39.',
     },
   ]
 
@@ -192,29 +202,28 @@ async function main() {
   for (const content of pageContents) {
     await prisma.pageContent.upsert({
       where: { key: content.key },
-      update: {},           // never overwrite existing values
+      update: {},
       create: content,
     })
   }
 
   // ── Gallery Images ────────────────────────────────────────────────────────
-  // Only seed gallery if empty
   const existingGallery = await prisma.galleryImage.count()
   if (existingGallery === 0) {
-  const galleryImages = [
-    { filename: 'restaurant-interior.jpg', alt: 'Restaurangens mysiga interiör', order: 1 },
-    { filename: 'pizza-fresh.jpg', alt: 'Nybakad pizza från ugnen', order: 2 },
-    { filename: 'kebab-plate.jpg', alt: 'Kebab på tallrik med tillbehör', order: 3 },
-    { filename: 'outdoor-seating.jpg', alt: 'Uteservering sommartid', order: 4 },
-    { filename: 'pasta-dish.jpg', alt: 'Krämig pasta serverad varm', order: 5 },
-    { filename: 'family-dining.jpg', alt: 'Familj som njuter av maten', order: 6 },
-  ]
-  for (const img of galleryImages) {
-    await prisma.galleryImage.create({ data: img })
-  }
+    const galleryImages = [
+      { filename: 'restaurant-interior.jpg', alt: 'Restaurangens mysiga interiör', order: 1 },
+      { filename: 'pizza-fresh.jpg', alt: 'Nybakad pizza från ugnen', order: 2 },
+      { filename: 'kebab-plate.jpg', alt: 'Kebab på tallrik med tillbehör', order: 3 },
+      { filename: 'outdoor-seating.jpg', alt: 'Uteservering sommartid', order: 4 },
+      { filename: 'pasta-dish.jpg', alt: 'Krämig pasta serverad varm', order: 5 },
+      { filename: 'family-dining.jpg', alt: 'Familj som njuter av maten', order: 6 },
+    ]
+    for (const img of galleryImages) {
+      await prisma.galleryImage.create({ data: img })
+    }
   }
 
-  console.log('✅ Seed completed — Valentino Hörby real data loaded!')
+  console.log('✅ Seed completed — Valentino Hörby real menu loaded!')
 }
 
 main()
