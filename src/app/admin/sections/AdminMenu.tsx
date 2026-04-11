@@ -13,15 +13,17 @@ interface MenuItem {
 }
 
 const DEFAULT_CATEGORIES = [
-  'Pizzor', 'Special Pizzor', 'Taco Pizzor', 'Italiensk Pizza', 'Kycklingpizzor',
-  'Sallader', 'Kebab', 'Falafel', 'Hamburgare', 'À la Carte', 'Drycker',
+  'Förrätter', 'Plankor', 'Varmrätter', 'Barn Meny', 'Pasta',
+  'Pizzor', 'Special Pizzor', 'Inbakade Pizzor', 'Vegetariska Pizzor',
+  'Mexikanska Pizzor', 'Oxfilé Pizzor', 'Kebabpizzor', 'Kycklingpizzor',
+  'Kebab', 'Bakpotatis', 'Sallader', 'Drycker',
 ]
 
 const emptyForm = {
   name: '',
   description: '',
   price: '',
-  category: 'Förrätter',
+  category: 'Pizzor',
   pizzaType: '',
   order: '0',
 }
