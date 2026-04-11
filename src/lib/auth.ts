@@ -12,8 +12,8 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         if (!credentials?.username || !credentials?.password) return null
 
-        const adminUsername = process.env.ADMIN_USERNAME
-        const adminPassword = process.env.ADMIN_PASSWORD
+        const adminUsername = process.env.ADMIN_USERNAME ?? 'admin'
+        const adminPassword = process.env.ADMIN_PASSWORD ?? 'restaurant123'
 
         if (
           credentials.username === adminUsername &&
@@ -36,5 +36,5 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: '/admin/login',
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET ?? 'valentino-secret-change-in-production',
 }

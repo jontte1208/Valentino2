@@ -70,12 +70,6 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
-            <Link
-              href="/admin"
-              className="ml-2 px-3 py-1 text-xs font-inter text-[#FAF4EB]/40 hover:text-[#FAF4EB]/70 transition-colors duration-300 border border-[#FAF4EB]/20 hover:border-[#FAF4EB]/40 rounded"
-            >
-              Admin
-            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -113,12 +107,6 @@ export default function Navbar() {
                   {link.label}
                 </Link>
               ))}
-              <Link
-                href="/admin"
-                className="px-4 py-3 text-xs font-inter text-[#FAF4EB]/40 hover:text-[#FAF4EB]/70 transition-colors"
-              >
-                Admin
-              </Link>
             </div>
           </div>
         )}
