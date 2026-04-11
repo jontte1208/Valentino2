@@ -116,25 +116,25 @@ export default function KontaktPage() {
             </h2>
 
             {/* Contact info */}
-            <div className="space-y-6 mb-10">
+            <div className="bg-white rounded-xl border border-[#E8DDD0] divide-y divide-[#E8DDD0] mb-8">
               {contactInfo.map((item) => (
-                <div key={item.label} className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[#C0623A]/10 flex items-center justify-center text-[#C0623A]">
+                <div key={item.label} className="flex items-center gap-4 px-5 py-4">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-[#C0623A]/10 flex items-center justify-center text-[#C0623A]">
                     {item.icon}
                   </div>
-                  <div>
-                    <p className="font-inter text-xs uppercase tracking-widest text-[#1C1C1C]/50 font-medium mb-1">
+                  <div className="flex items-baseline gap-3 min-w-0">
+                    <span className="font-inter text-xs uppercase tracking-widest text-[#1C1C1C]/40 font-medium flex-shrink-0">
                       {item.label}
-                    </p>
+                    </span>
                     {item.href ? (
                       <a
                         href={item.href}
-                        className="font-inter text-base text-[#1C1C1C] hover:text-[#C0623A] transition-colors"
+                        className="font-inter text-sm text-[#1C1C1C] hover:text-[#C0623A] transition-colors truncate"
                       >
                         {item.value}
                       </a>
                     ) : (
-                      <p className="font-inter text-base text-[#1C1C1C]">{item.value}</p>
+                      <span className="font-inter text-sm text-[#1C1C1C] truncate">{item.value}</span>
                     )}
                   </div>
                 </div>
