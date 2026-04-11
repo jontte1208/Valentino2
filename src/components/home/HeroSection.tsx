@@ -6,9 +6,18 @@ import { motion } from 'framer-motion'
 interface HeroSectionProps {
   bgVideo?: string
   bgImage?: string
+  title?: string
+  subtitle?: string
+  tagline?: string
 }
 
-export default function HeroSection({ bgVideo, bgImage }: HeroSectionProps) {
+export default function HeroSection({
+  bgVideo,
+  bgImage,
+  title = 'Valentino',
+  subtitle = 'Hörbys mest omtyckta pizzeria & restaurang',
+  tagline = 'Pizza, kebab, pasta och mycket mer — lagat med kärlek och de bästa råvarorna. Öppet alla dagar i veckan',
+}: HeroSectionProps) {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background */}
@@ -86,7 +95,7 @@ export default function HeroSection({ bgVideo, bgImage }: HeroSectionProps) {
           transition={{ duration: 0.9, delay: 0.4 }}
           className="font-playfair text-7xl sm:text-8xl lg:text-9xl font-bold text-[#FAF4EB] mb-6 leading-none tracking-tight"
         >
-          Valentino
+          {title}
         </motion.h1>
 
         <motion.div
@@ -102,7 +111,7 @@ export default function HeroSection({ bgVideo, bgImage }: HeroSectionProps) {
           transition={{ duration: 0.8, delay: 0.8 }}
           className="font-playfair text-xl sm:text-2xl text-[#FAF4EB]/80 italic mb-4 font-light"
         >
-          Hörbys mest omtyckta pizzeria &amp; restaurang
+          {subtitle}
         </motion.p>
 
         <motion.p
@@ -111,7 +120,7 @@ export default function HeroSection({ bgVideo, bgImage }: HeroSectionProps) {
           transition={{ duration: 0.8, delay: 1.0 }}
           className="font-inter text-base text-[#FAF4EB]/60 mb-12 max-w-lg mx-auto"
         >
-          Pizza, kebab, pasta och mycket mer — lagat med kärlek och de bästa råvarorna. Öppet alla dagar i veckan
+          {tagline}
         </motion.p>
 
         <motion.div

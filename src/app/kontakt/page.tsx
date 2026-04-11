@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 
 interface ContactForm {
@@ -17,10 +17,48 @@ const initialForm: ContactForm = {
   message: '',
 }
 
+const DEFAULTS = {
+  address: 'Nygatan 38, 242 31 Hörby, Skåne',
+  phone: '0415-100 39',
+  email: 'pizzeria-valentino@hotmail.com',
+  opening_hours: 'Måndag: 13:00–21:00\nTisdag: 11:30–22:00\nOnsdag: 11:00–22:00\nTorsdag: 11:30–22:00\nFredag: 11:30–22:00\nLördag: 11:30–23:00\nSöndag: 12:00–23:00',
+  lunch_hours: 'Tisdag–Fredag: 11:30–14:00',
+}
+
+/** Parse "Måndag: 13:00–21:00" lines into {day, hours} rows */
+function parseHours(raw: string): { day: string; hours: string }[] {
+  return raw
+    .split('\n')
+    .map((line) => {
+      const idx = line.indexOf(':')
+      if (idx === -1) return null
+      return { day: line.slice(0, idx).trim(), hours: line.slice(idx + 1).trim() }
+    })
+    .filter(Boolean) as { day: string; hours: string }[]
+}
+
 export default function KontaktPage() {
   const [form, setForm] = useState<ContactForm>(initialForm)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
+  const [info, setInfo] = useState(DEFAULTS)
+
+  useEffect(() => {
+    fetch('/api/content')
+      .then((r) => r.json())
+      .then((data: { key: string; value: string }[]) => {
+        const map: Record<string, string> = {}
+        data.forEach((item) => { map[item.key] = item.value })
+        setInfo({
+          address: map.address ?? DEFAULTS.address,
+          phone: map.phone ?? DEFAULTS.phone,
+          email: map.email ?? DEFAULTS.email,
+          opening_hours: map.opening_hours ?? DEFAULTS.opening_hours,
+          lunch_hours: map.lunch_hours ?? DEFAULTS.lunch_hours,
+        })
+      })
+      .catch(() => {})
+  }, [])
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     const { name, value } = e.target
@@ -45,7 +83,7 @@ export default function KontaktPage() {
         </svg>
       ),
       label: 'Adress',
-      value: 'Nygatan 38, 242 31 Hörby, Skåne',
+      value: info.address,
     },
     {
       icon: (
@@ -54,8 +92,8 @@ export default function KontaktPage() {
         </svg>
       ),
       label: 'Telefon',
-      value: '0415-100 39',
-      href: 'tel:0415-10039',
+      value: info.phone,
+      href: `tel:${info.phone.replace(/[^0-9+]/g, '')}`,
     },
     {
       icon: (
@@ -64,20 +102,12 @@ export default function KontaktPage() {
         </svg>
       ),
       label: 'E-post',
-      value: 'pizzeria-valentino@hotmail.com',
-      href: 'mailto:pizzeria-valentino@hotmail.com',
+      value: info.email,
+      href: `mailto:${info.email}`,
     },
   ]
 
-  const hours = [
-    { day: 'Måndag', hours: '11:30 – 22:00' },
-    { day: 'Tisdag', hours: '11:00 – 22:00' },
-    { day: 'Onsdag', hours: '11:30 – 22:00' },
-    { day: 'Torsdag', hours: '11:30 – 22:00' },
-    { day: 'Fredag', hours: '11:30 – 23:00' },
-    { day: 'Lördag', hours: '12:00 – 23:00' },
-    { day: 'Söndag', hours: '13:00 – 21:00' },
-  ]
+  const hours = parseHours(info.opening_hours)
 
   return (
     <div className="bg-[#FAF4EB] min-h-screen">
@@ -155,7 +185,7 @@ export default function KontaktPage() {
                   ))}
                   <div className="pt-3 border-t border-[#FAF4EB]/10">
                     <p className="font-inter text-xs text-[#FAF4EB]/50">
-                      Lunch: Måndag–Fredag 11:00–14:30
+                      Lunch: {info.lunch_hours}
                     </p>
                   </div>
                 </div>
