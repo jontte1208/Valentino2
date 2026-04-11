@@ -17,12 +17,18 @@ const navLinks = [
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  // mounted prevents a hydration flash where the transparent state is
+  // briefly applied on non-home pages before the client JS runs
+  const [mounted, setMounted] = useState(false)
   const pathname = usePathname()
 
   useEffect(() => {
+    setMounted(true)
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20)
     }
+    // Capture initial scroll position immediately
+    setIsScrolled(window.scrollY > 20)
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
@@ -32,13 +38,15 @@ export default function Navbar() {
   }, [pathname])
 
   const isHomePage = pathname === '/'
+  // Transparent only on the homepage hero when not scrolled and fully mounted
+  const isTransparent = mounted && isHomePage && !isScrolled && !isMobileMenuOpen
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled || !isHomePage || isMobileMenuOpen
-          ? 'bg-[#1C1C1C]/98 shadow-lg backdrop-blur-sm'
-          : 'bg-transparent'
+        isTransparent
+          ? 'bg-transparent'
+          : 'bg-[#1C1C1C] shadow-lg backdrop-blur-sm'
       }`}
     >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
