@@ -142,22 +142,6 @@ export default function HeroSection({ bgVideo, bgImage }: HeroSectionProps) {
           </Link>
         </motion.div>
 
-        {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.8 }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2"
-        >
-          <div className="flex flex-col items-center gap-2">
-            <span className="font-inter text-xs text-[#FAF4EB]/40 uppercase tracking-widest">Skrolla</span>
-            <motion.div
-              animate={{ y: [0, 8, 0] }}
-              transition={{ repeat: Infinity, duration: 1.5 }}
-              className="w-px h-8 bg-gradient-to-b from-[#FAF4EB]/40 to-transparent"
-            />
-          </div>
-        </motion.div>
       </div>
     </section>
   )

@@ -65,25 +65,6 @@ const categorySubtitles: Record<string, string> = {
   Drycker: 'Kalla drycker till din måltid',
 }
 
-const categoryAllergens: Record<string, string> = {
-  Förrätter: 'Gluten, Laktos, Fisk, Skaldjur — fråga personalen',
-  Plankor: 'Laktos, Fisk, Skaldjur — fråga personalen',
-  Varmrätter: 'Gluten, Laktos, Fisk, Skaldjur — fråga personalen',
-  'Barn Meny': 'Gluten, Laktos, Ägg — fråga personalen',
-  Pasta: 'Gluten, Laktos, Fisk — fråga personalen',
-  Pizzor: 'Gluten, Laktos',
-  'Special Pizzor': 'Gluten, Laktos, Fisk, Skaldjur — fråga personalen',
-  'Inbakade Pizzor': 'Gluten, Laktos',
-  'Vegetariska Pizzor': 'Gluten, Laktos',
-  'Mexikanska Pizzor': 'Gluten, Laktos',
-  'Oxfilé Pizzor': 'Gluten, Laktos',
-  Kebabpizzor: 'Gluten, Laktos, Selleri',
-  Kycklingpizzor: 'Gluten, Laktos, Selleri',
-  Kebab: 'Gluten, Selleri, Sesam',
-  Bakpotatis: 'Fisk, Skaldjur, Laktos — fråga personalen',
-  Sallader: 'Ägg, Fisk, Skaldjur — fråga personalen',
-  Drycker: '',
-}
 
 export default function MenuClient({ menuItems }: MenuClientProps) {
   const [activeCategory, setActiveCategory] = useState('Alla')
@@ -230,7 +211,6 @@ export default function MenuClient({ menuItems }: MenuClientProps) {
 // ── Category section ─────────────────────────────────────────────────────────
 function CategorySection({ category, items }: { category: string; items: MenuItem[] }) {
   const subtitle = categorySubtitles[category] ?? ''
-  const allergens = categoryAllergens[category] ?? ''
 
   return (
     <div className="mb-16">
@@ -248,7 +228,7 @@ function CategorySection({ category, items }: { category: string; items: MenuIte
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {items.map((item, i) => (
-          <MenuCard key={item.id} item={item} index={i} allergens={allergens} />
+          <MenuCard key={item.id} item={item} index={i} />
         ))}
       </div>
     </div>
@@ -256,7 +236,7 @@ function CategorySection({ category, items }: { category: string; items: MenuIte
 }
 
 // ── Menu card ────────────────────────────────────────────────────────────────
-function MenuCard({ item, index, allergens }: { item: MenuItem; index: number; allergens: string }) {
+function MenuCard({ item, index }: { item: MenuItem; index: number }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -284,16 +264,7 @@ function MenuCard({ item, index, allergens }: { item: MenuItem; index: number; a
           {item.description}
         </p>
 
-        {allergens && (
-          <div className="bg-amber-50 border border-amber-100 rounded-lg px-3 py-2 mb-4">
-            <p className="font-inter text-xs text-amber-800/70 italic">
-              <span className="not-italic mr-1">⚠</span>
-              Innehåller: {allergens}
-            </p>
-          </div>
-        )}
-
-        <div className="flex items-center justify-end pt-2 border-t border-[#F0E8DF]">
+<div className="flex items-center justify-end pt-2 border-t border-[#F0E8DF]">
           <span className="font-playfair text-xl font-bold text-[#C0623A]">
             {item.price} <span className="text-base font-normal">kr</span>
           </span>
