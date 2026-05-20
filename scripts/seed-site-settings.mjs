@@ -43,8 +43,15 @@ const client = createClient({
 })
 
 const defaults = {
+  heroLabel: 'Pizzeria & Restaurang — Hörby, Skåne',
   heroTitle: 'Valentino',
   heroSubtitle: 'Pizzeria & Restaurang i hjärtat av Hörby',
+  heroTagline:
+    'Pizza, kebab, pasta och mycket mer — lagat med kärlek och de bästa råvarorna. Öppet alla dagar i veckan',
+  footerTagline:
+    'Pizzeria & Restaurang i Hörby, Skåne. Pizza, kebab, pasta och mer — öppet alla dagar i veckan.',
+  facebookUrl: 'https://www.facebook.com/Restaurang.valentino/',
+  instagramUrl: 'https://www.facebook.com/Restaurang.valentino/',
   aboutTitle: 'En familjerestaurang med hjärta och historia',
   aboutText:
     'Valentino grundades av familjen Rossi med en dröm om att ge Stockholmarna en genuin smak av Italien.',

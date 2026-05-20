@@ -1,10 +1,19 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
-import Navbar from './Navbar'
-import Footer from './Footer'
+import type { ReactNode } from 'react'
 
-export default function ConditionalLayout({ children }: { children: React.ReactNode }) {
+interface ConditionalLayoutProps {
+  navbar: ReactNode
+  footer: ReactNode
+  children: ReactNode
+}
+
+export default function ConditionalLayout({
+  navbar,
+  footer,
+  children,
+}: ConditionalLayoutProps) {
   const pathname = usePathname()
   const isStudioRoute = pathname.startsWith('/studio')
 
@@ -14,9 +23,9 @@ export default function ConditionalLayout({ children }: { children: React.ReactN
 
   return (
     <>
-      <Navbar />
+      {navbar}
       <main>{children}</main>
-      <Footer />
+      {footer}
     </>
   )
 }

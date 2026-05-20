@@ -6,6 +6,7 @@ import { motion } from 'framer-motion'
 interface HeroSectionProps {
   bgVideo?: string
   bgImage?: string
+  label?: string
   title?: string
   subtitle?: string
   tagline?: string
@@ -14,6 +15,7 @@ interface HeroSectionProps {
 export default function HeroSection({
   bgVideo,
   bgImage,
+  label = 'Pizzeria & Restaurang — Hörby, Skåne',
   title = 'Valentino',
   subtitle = 'Hörbys mest omtyckta pizzeria & restaurang',
   tagline = 'Pizza, kebab, pasta och mycket mer — lagat med kärlek och de bästa råvarorna. Öppet alla dagar i veckan',
@@ -85,7 +87,7 @@ export default function HeroSection({
           className="mb-4"
         >
           <span className="font-inter text-xs uppercase tracking-[0.3em] text-[#C0623A] font-medium">
-            Pizzeria &amp; Restaurang — Hörby, Skåne
+            {label}
           </span>
         </motion.div>
 

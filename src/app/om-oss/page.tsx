@@ -15,6 +15,7 @@ export default async function OmOssPage() {
 
   return (
     <OmOssClient
+      aboutTitle={settings?.aboutTitle || 'En familjerestaurang med hjärta och historia'}
       aboutText={
         settings?.aboutText ||
         'Valentino grundades av familjen Rossi med en dröm om att ge Stockholmarna en genuin smak av Italien.'

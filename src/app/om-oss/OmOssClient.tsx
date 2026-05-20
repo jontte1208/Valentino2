@@ -47,11 +47,21 @@ const values = [
 ]
 
 interface OmOssClientProps {
+  aboutTitle: string
   aboutText: string
   aboutStory: string
 }
 
-export default function OmOssClient({ aboutText, aboutStory }: OmOssClientProps) {
+export default function OmOssClient({ aboutTitle, aboutText, aboutStory }: OmOssClientProps) {
+  // Dela "En familjerestaurang med hjärta och historia" på "med " om möjligt
+  // så vi behåller den stiliserade två-raders-rubriken med kursiv andra rad.
+  const [titleStart, titleEnd] = (() => {
+    const idx = aboutTitle.toLowerCase().indexOf(' med ')
+    if (idx > 0) {
+      return [aboutTitle.slice(0, idx), aboutTitle.slice(idx + 1)]
+    }
+    return [aboutTitle, '']
+  })()
   return (
     <div className="bg-[#FAF4EB]">
       <section className="relative py-32 bg-[#1C1C1C] overflow-hidden">
@@ -89,8 +99,10 @@ export default function OmOssClient({ aboutText, aboutStory }: OmOssClientProps)
                 Nygatan 38, Hörby
               </span>
               <h2 className="font-playfair text-4xl font-bold text-[#1C1C1C] mt-4 mb-6 leading-tight">
-                En familjerestaurang
-                <span className="block italic text-[#C0623A]">med hjärta och historia</span>
+                {titleStart}
+                {titleEnd && (
+                  <span className="block italic text-[#C0623A]">{titleEnd}</span>
+                )}
               </h2>
               <div className="w-12 h-0.5 bg-[#C0623A] mb-8" />
               <p className="font-inter text-base text-[#1C1C1C]/70 leading-relaxed mb-6">

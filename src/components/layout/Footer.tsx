@@ -1,6 +1,63 @@
 import Link from 'next/link'
 
-export default function Footer() {
+const DEFAULTS = {
+  footerTagline:
+    'Pizzeria & Restaurang i Hörby, Skåne. Pizza, kebab, pasta och mer — öppet alla dagar i veckan.',
+  address: 'Nygatan 38, 242 31 Hörby, Skåne',
+  phone: '0415-100 39',
+  email: 'pizzeria-valentino@hotmail.com',
+  facebookUrl: 'https://www.facebook.com/Restaurang.valentino/',
+  instagramUrl: 'https://www.facebook.com/Restaurang.valentino/',
+  openingHours: [
+    { day: 'Måndag', hours: '13:00–21:00' },
+    { day: 'Tisdag', hours: '11:30–22:00' },
+    { day: 'Onsdag', hours: '11:00–22:00' },
+    { day: 'Torsdag', hours: '11:30–22:00' },
+    { day: 'Fredag', hours: '11:30–22:00' },
+    { day: 'Lördag', hours: '11:30–23:00' },
+    { day: 'Söndag', hours: '12:00–23:00' },
+  ],
+  lunchHours: 'Tisdag–Fredag: 11:30–14:00',
+}
+
+const SHORT_DAY: Record<string, string> = {
+  Måndag: 'Mån',
+  Tisdag: 'Tis',
+  Onsdag: 'Ons',
+  Torsdag: 'Tor',
+  Fredag: 'Fre',
+  Lördag: 'Lör',
+  Söndag: 'Sön',
+}
+
+export interface FooterProps {
+  footerTagline?: string
+  address?: string
+  phone?: string
+  email?: string
+  facebookUrl?: string
+  instagramUrl?: string
+  openingHours?: { day: string; hours: string }[]
+  lunchHours?: string
+}
+
+export default function Footer(props: FooterProps) {
+  const tagline = props.footerTagline || DEFAULTS.footerTagline
+  const address = props.address || DEFAULTS.address
+  const phone = props.phone || DEFAULTS.phone
+  const email = props.email || DEFAULTS.email
+  const facebookUrl = props.facebookUrl || DEFAULTS.facebookUrl
+  const instagramUrl = props.instagramUrl || DEFAULTS.instagramUrl
+  const openingHours =
+    props.openingHours && props.openingHours.length > 0
+      ? props.openingHours
+      : DEFAULTS.openingHours
+  const lunchHours = props.lunchHours || DEFAULTS.lunchHours
+
+  // Adress kan vara på en eller två rader. Dela på ", " om det går.
+  const addressParts = address.split(',').map((p) => p.trim())
+  const phoneHref = `tel:${phone.replace(/[^0-9+]/g, '')}`
+
   return (
     <footer className="bg-[#1C1C1C] text-[#FAF4EB]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -11,11 +68,11 @@ export default function Footer() {
               Valentino
             </h3>
             <p className="font-inter text-sm text-[#FAF4EB]/60 leading-relaxed mb-6">
-              Pizzeria &amp; Restaurang i Hörby, Skåne. Pizza, kebab, pasta och mer — öppet alla dagar i veckan.
+              {tagline}
             </p>
             <div className="flex space-x-4">
               <a
-                href="https://www.facebook.com/Restaurang.valentino/"
+                href={instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-full border border-[#C0623A]/40 flex items-center justify-center text-[#C0623A] hover:bg-[#C0623A] hover:text-white transition-all duration-300"
@@ -26,7 +83,7 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="https://www.facebook.com/Restaurang.valentino/"
+                href={facebookUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-full border border-[#C0623A]/40 flex items-center justify-center text-[#C0623A] hover:bg-[#C0623A] hover:text-white transition-all duration-300"
@@ -71,23 +128,26 @@ export default function Footer() {
             </h4>
             <ul className="space-y-3">
               <li className="font-inter text-sm text-[#FAF4EB]/70">
-                <span className="block">Nygatan 38</span>
-                <span className="block">242 31 Hörby, Skåne</span>
+                {addressParts.map((part, i) => (
+                  <span key={i} className="block">
+                    {part}
+                  </span>
+                ))}
               </li>
               <li>
                 <a
-                  href="tel:0415-10039"
+                  href={phoneHref}
                   className="font-inter text-sm text-[#FAF4EB]/70 hover:text-[#FAF4EB] transition-colors"
                 >
-                  0415-100 39
+                  {phone}
                 </a>
               </li>
               <li>
                 <a
-                  href="mailto:pizzeria-valentino@hotmail.com"
+                  href={`mailto:${email}`}
                   className="font-inter text-sm text-[#FAF4EB]/70 hover:text-[#FAF4EB] transition-colors"
                 >
-                  pizzeria-valentino@hotmail.com
+                  {email}
                 </a>
               </li>
             </ul>
@@ -99,32 +159,16 @@ export default function Footer() {
               Öppettider
             </h4>
             <ul className="space-y-2">
-              <li className="font-inter text-sm text-[#FAF4EB]/70">
-                <span className="text-[#FAF4EB]/90 font-medium">Mån</span>
-                <span className="block text-xs mt-0.5">11:30 – 22:00</span>
-              </li>
-              <li className="font-inter text-sm text-[#FAF4EB]/70">
-                <span className="text-[#FAF4EB]/90 font-medium">Tis</span>
-                <span className="block text-xs mt-0.5">11:00 – 22:00</span>
-              </li>
-              <li className="font-inter text-sm text-[#FAF4EB]/70">
-                <span className="text-[#FAF4EB]/90 font-medium">Ons–Tor</span>
-                <span className="block text-xs mt-0.5">11:30 – 22:00</span>
-              </li>
-              <li className="font-inter text-sm text-[#FAF4EB]/70">
-                <span className="text-[#FAF4EB]/90 font-medium">Fredag</span>
-                <span className="block text-xs mt-0.5">11:30 – 23:00</span>
-              </li>
-              <li className="font-inter text-sm text-[#FAF4EB]/70">
-                <span className="text-[#FAF4EB]/90 font-medium">Lördag</span>
-                <span className="block text-xs mt-0.5">12:00 – 23:00</span>
-              </li>
-              <li className="font-inter text-sm text-[#FAF4EB]/70">
-                <span className="text-[#FAF4EB]/90 font-medium">Söndag</span>
-                <span className="block text-xs mt-0.5">13:00 – 21:00</span>
-              </li>
+              {openingHours.map((h) => (
+                <li key={h.day} className="font-inter text-sm text-[#FAF4EB]/70">
+                  <span className="text-[#FAF4EB]/90 font-medium">
+                    {SHORT_DAY[h.day] ?? h.day}
+                  </span>
+                  <span className="block text-xs mt-0.5">{h.hours}</span>
+                </li>
+              ))}
               <li className="pt-2 border-t border-[#FAF4EB]/10 font-inter text-xs text-[#FAF4EB]/50">
-                Lunch serveras mån–fre 11:00–14:30
+                Lunch: {lunchHours}
               </li>
             </ul>
           </div>

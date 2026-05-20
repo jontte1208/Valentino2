@@ -11,8 +11,10 @@ import GalleryTeaser from '@/components/home/GalleryTeaser'
 export const revalidate = 60
 
 interface SiteSettings {
+  heroLabel?: string
   heroTitle?: string
   heroSubtitle?: string
+  heroTagline?: string
   heroImage?: unknown
   aboutTitle?: string
   aboutBody?: unknown
@@ -56,10 +58,12 @@ async function getHomeData() {
   }))
 
   return {
+    heroLabel: settings?.heroLabel ?? 'Pizzeria & Restaurang — Hörby, Skåne',
     heroTitle: settings?.heroTitle ?? 'Valentino',
     heroSubtitle:
-      settings?.heroSubtitle ?? 'Hörbys mest omtyckta pizzeria & restaurang',
+      settings?.heroSubtitle ?? 'Pizzeria & Restaurang i hjärtat av Hörby',
     heroTagline:
+      settings?.heroTagline ??
       'Pizza, kebab, pasta och mycket mer — lagat med kärlek och de bästa råvarorna. Öppet alla dagar i veckan',
     welcomeText: '',
     heroBgVideo: '/uploads/pizza.mp4',
@@ -72,6 +76,7 @@ async function getHomeData() {
 
 export default async function HomePage() {
   const {
+    heroLabel,
     heroTitle,
     heroSubtitle,
     heroTagline,
@@ -88,6 +93,7 @@ export default async function HomePage() {
       <HeroSection
         bgVideo={heroBgVideo}
         bgImage={heroBgImage}
+        label={heroLabel}
         title={heroTitle}
         subtitle={heroSubtitle}
         tagline={heroTagline}

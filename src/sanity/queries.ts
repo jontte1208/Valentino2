@@ -41,8 +41,10 @@ export const galleryImagesQuery = groq`
 
 export const siteSettingsQuery = groq`
   *[_type == "siteSettings"][0] {
+    heroLabel,
     heroTitle,
     heroSubtitle,
+    heroTagline,
     heroImage,
     aboutTitle,
     aboutText,
@@ -56,6 +58,7 @@ export const siteSettingsQuery = groq`
     email,
     mapEmbedUrl,
     facebookUrl,
-    instagramUrl
+    instagramUrl,
+    footerTagline
   }
 `

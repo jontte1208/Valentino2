@@ -6,15 +6,27 @@ export const siteSettings = defineType({
   type: 'document',
   fields: [
     defineField({
+      name: 'heroLabel',
+      title: 'Hero — Liten text ovanför titel',
+      type: 'string',
+      description: 'Visas i versaler, t.ex. "Pizzeria & Restaurang — Hörby, Skåne"',
+    }),
+    defineField({
       name: 'heroTitle',
       title: 'Hero — Titel',
       type: 'string',
     }),
     defineField({
       name: 'heroSubtitle',
-      title: 'Hero — Underrubrik',
+      title: 'Hero — Underrubrik (kursiv)',
       type: 'text',
       rows: 2,
+    }),
+    defineField({
+      name: 'heroTagline',
+      title: 'Hero — Brödtext under titel',
+      type: 'text',
+      rows: 3,
     }),
     defineField({
       name: 'heroImage',
@@ -91,6 +103,13 @@ export const siteSettings = defineType({
       name: 'instagramUrl',
       title: 'Instagram-URL',
       type: 'url',
+    }),
+    defineField({
+      name: 'footerTagline',
+      title: 'Sidfot — Beskrivande text',
+      type: 'text',
+      rows: 3,
+      description: 'Texten under "Valentino" i sidfoten',
     }),
   ],
   preview: {
