@@ -1,30 +1,68 @@
-import { prisma } from '@/lib/prisma'
+import { sanityClient } from '@/sanity/client'
+import { lunchWeekQuery } from '@/sanity/queries'
 import { getISOWeekNumber } from '@/lib/weekNumber'
 import VeckansLunchClient from './VeckansLunchClient'
 
-export const dynamic = 'force-dynamic'
+// ISR: revalideras varje timme. När måndag slår över byts veckan automatiskt
+// nästa gång sidan revalideras. Sätt till 0 om du vill ha live alltid.
+export const revalidate = 3600
+
+interface LunchWeek {
+  weekNumber: number
+  year: number
+  days?: Array<{
+    dayOfWeek: string
+    dishName: string
+    description: string
+    price: number
+  }>
+  soup?: { name: string; description: string; price: number } | null
+}
 
 async function getLunchData() {
   const weekNumber = getISOWeekNumber()
   const year = new Date().getFullYear()
 
-  try {
-    const [lunchDays, soup] = await Promise.all([
-      prisma.lunchDay.findMany({
-        where: { weekNumber, year },
-        orderBy: { id: 'asc' },
-      }),
-      prisma.weeklySoup.findFirst({
-        where: { weekNumber, year },
-      }),
-    ])
-    return { lunchDays, soup, weekNumber }
-  } catch {
-    return { lunchDays: [], soup: null, weekNumber }
-  }
+  const data = await sanityClient.fetch<LunchWeek | null>(lunchWeekQuery, {
+    weekNumber,
+    year,
+  })
+
+  // Anpassa till befintligt VeckansLunchClient-API (lunchDays-array + soup)
+  const lunchDays = (data?.days ?? []).map((d, i) => ({
+    id: i + 1,
+    weekNumber,
+    year,
+    dayOfWeek: d.dayOfWeek,
+    dishName: d.dishName,
+    description: d.description,
+    price: d.price,
+    updatedAt: new Date(),
+  }))
+
+  const soup = data?.soup
+    ? {
+        id: 1,
+        weekNumber,
+        year,
+        name: data.soup.name,
+        description: data.soup.description,
+        price: data.soup.price,
+      }
+    : null
+
+  return { lunchDays, soup, weekNumber }
 }
 
 export default async function VeckansLunchPage() {
   const { lunchDays, soup, weekNumber } = await getLunchData()
-  return <VeckansLunchClient lunchDays={lunchDays} soup={soup} weekNumber={weekNumber} />
+  return (
+    <VeckansLunchClient
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      lunchDays={lunchDays as any}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      soup={soup as any}
+      weekNumber={weekNumber}
+    />
+  )
 }

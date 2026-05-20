@@ -4,27 +4,21 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && prisma db push && prisma db seed && next build",
+    "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "postinstall": "prisma generate"
+    "lint": "next lint"
   },
   "dependencies": {
-    "@prisma/adapter-better-sqlite3": "^7.7.0",
-    "@prisma/client": "^7.7.0",
-    "@types/bcryptjs": "^2.4.6",
-    "@types/better-sqlite3": "^7.6.13",
-    "bcryptjs": "^3.0.3",
-    "better-sqlite3": "^12.8.0",
+    "@sanity/image-url": "^1.2.0",
+    "@sanity/vision": "^3.99.0",
     "framer-motion": "^12.38.0",
     "next": "14.2.35",
-    "next-auth": "^4.24.13",
-    "prisma": "^7.7.0",
+    "next-sanity": "^9.12.3",
     "react": "^18",
-    "react-dom": "^18"
-  },
-  "prisma": {
-    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+    "react-dom": "^18",
+    "react-is": "^19.2.6",
+    "sanity": "^3.99.0",
+    "styled-components": "^6.4.2"
   },
   "devDependencies": {
     "@types/node": "^20",

@@ -36,13 +36,24 @@ yarn-error.log*
 # vercel
 .vercel
 
+# sanity
+/dist
+.sanity/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
 
-/src/generated/prisma
-
-# Large media files
-pizza.mp4
-public/uploads/*.mp4
+# Large media files (commit pizza.mp4 — behövs för hero-video på Vercel)
 public/uploads/*.mov
+
+# Lokala verktyg och AI-assistent-config (inte projekt-källkod)
+.claude/
+.claude-flow/
+.unity/
+.mcp.json
+graphify-out/
+*.tsbuildinfo
+
+# Lösa skärmdumpar och referensbilder vid projektroten
+/Pizzeria-Valentino_*.jpg

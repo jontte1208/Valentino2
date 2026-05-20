@@ -1,6 +1,6 @@
-export const dynamic = 'force-dynamic'
-
-import { prisma } from '@/lib/prisma'
+import { sanityClient } from '@/sanity/client'
+import { lunchWeekQuery, siteSettingsQuery } from '@/sanity/queries'
+import { urlFor } from '@/sanity/image'
 import { getISOWeekNumber } from '@/lib/weekNumber'
 import HeroSection from '@/components/home/HeroSection'
 import BenefitsBar from '@/components/home/BenefitsBar'
@@ -8,46 +8,80 @@ import WelcomeSection from '@/components/home/WelcomeSection'
 import LunchPreview from '@/components/home/LunchPreview'
 import GalleryTeaser from '@/components/home/GalleryTeaser'
 
+export const revalidate = 3600
+
+interface SiteSettings {
+  heroTitle?: string
+  heroSubtitle?: string
+  heroImage?: unknown
+  aboutTitle?: string
+  aboutBody?: unknown
+  aboutImage?: unknown
+}
+
+interface LunchWeekData {
+  days?: Array<{
+    dayOfWeek: string
+    dishName: string
+    description: string
+    price: number
+  }>
+}
+
 async function getHomeData() {
   const weekNumber = getISOWeekNumber()
   const year = new Date().getFullYear()
 
-  const [contentRows, lunchDays] = await Promise.all([
-    prisma.pageContent.findMany({
-      where: {
-        key: {
-          in: [
-            'hero_title', 'hero_subtitle', 'hero_tagline',
-            'welcome_text', 'hero_bg_video', 'hero_bg_image', 'welcome_image',
-          ],
-        },
-      },
-    }),
-    prisma.lunchDay.findMany({
-      where: { weekNumber, year },
-      orderBy: { id: 'asc' },
-    }),
+  const [settings, lunch] = await Promise.all([
+    sanityClient.fetch<SiteSettings | null>(siteSettingsQuery),
+    sanityClient.fetch<LunchWeekData | null>(lunchWeekQuery, { weekNumber, year }),
   ])
 
-  const content: Record<string, string> = {}
-  contentRows.forEach((r) => { content[r.key] = r.value })
+  const heroImage = settings?.heroImage
+    ? urlFor(settings.heroImage as never).width(1920).url()
+    : ''
+  const welcomeImage = settings?.aboutImage
+    ? urlFor(settings.aboutImage as never).width(1200).url()
+    : ''
+
+  const lunchDays = (lunch?.days ?? []).map((d, i) => ({
+    id: i + 1,
+    weekNumber,
+    year,
+    dayOfWeek: d.dayOfWeek,
+    dishName: d.dishName,
+    description: d.description,
+    price: d.price,
+    updatedAt: new Date(),
+  }))
 
   return {
-    heroTitle: content.hero_title ?? 'Valentino',
-    heroSubtitle: content.hero_subtitle ?? 'Hörbys mest omtyckta pizzeria & restaurang',
-    heroTagline: content.hero_tagline ?? 'Pizza, kebab, pasta och mycket mer — lagat med kärlek och de bästa råvarorna. Öppet alla dagar i veckan',
-    welcomeText: content.welcome_text ?? 'Välkommen till Valentino.',
-    heroBgVideo: content.hero_bg_video ?? '/uploads/pizza.mp4',
-    heroBgImage: content.hero_bg_image ?? '',
-    welcomeImage: content.welcome_image ?? '',
+    heroTitle: settings?.heroTitle ?? 'Valentino',
+    heroSubtitle:
+      settings?.heroSubtitle ?? 'Hörbys mest omtyckta pizzeria & restaurang',
+    heroTagline:
+      'Pizza, kebab, pasta och mycket mer — lagat med kärlek och de bästa råvarorna. Öppet alla dagar i veckan',
+    welcomeText: '',
+    heroBgVideo: '/uploads/pizza.mp4',
+    heroBgImage: heroImage,
+    welcomeImage,
     lunchDays,
     weekNumber,
   }
 }
 
 export default async function HomePage() {
-  const { heroTitle, heroSubtitle, heroTagline, welcomeText, heroBgVideo, heroBgImage, welcomeImage, lunchDays, weekNumber } =
-    await getHomeData()
+  const {
+    heroTitle,
+    heroSubtitle,
+    heroTagline,
+    welcomeText,
+    heroBgVideo,
+    heroBgImage,
+    welcomeImage,
+    lunchDays,
+    weekNumber,
+  } = await getHomeData()
 
   return (
     <>
@@ -60,7 +94,8 @@ export default async function HomePage() {
       />
       <BenefitsBar />
       <WelcomeSection welcomeText={welcomeText} welcomeImage={welcomeImage} />
-      <LunchPreview weekNumber={weekNumber} lunchDays={lunchDays} />
+      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+      <LunchPreview weekNumber={weekNumber} lunchDays={lunchDays as any} />
       <GalleryTeaser />
     </>
   )
