@@ -3,13 +3,21 @@ import type { StructureResolver } from 'sanity/structure'
 const MENU_CATEGORIES = [
   'Förrätter',
   'Plankor',
-  'Pizza',
-  'Pasta',
   'Sallader',
-  'Kött & Fisk',
-  'Barnmeny',
-  'Dessert',
-  'Dryck',
+  'Varmrätter',
+  'Kebab',
+  'Bakpotatis',
+  'Pasta',
+  'Pizzor',
+  'Special Pizzor',
+  'Vegetariska Pizzor',
+  'Kycklingpizzor',
+  'Oxfilé Pizzor',
+  'Kebabpizzor',
+  'Mexikanska Pizzor',
+  'Inbakade Pizzor',
+  'Barn Meny',
+  'Drycker',
 ]
 
 export const structure: StructureResolver = (S) =>
