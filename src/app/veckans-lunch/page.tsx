@@ -3,9 +3,9 @@ import { lunchWeekQuery } from '@/sanity/queries'
 import { getISOWeekNumber } from '@/lib/weekNumber'
 import VeckansLunchClient from './VeckansLunchClient'
 
-// ISR: revalideras varje timme. När måndag slår över byts veckan automatiskt
-// nästa gång sidan revalideras. Sätt till 0 om du vill ha live alltid.
-export const revalidate = 3600
+// ISR: revalideras varje minut. När måndag slår över byts veckan automatiskt
+// inom kort efter att tiden passerat 00:00.
+export const revalidate = 60
 
 interface LunchWeek {
   weekNumber: number

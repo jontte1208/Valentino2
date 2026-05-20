@@ -8,7 +8,7 @@ import WelcomeSection from '@/components/home/WelcomeSection'
 import LunchPreview from '@/components/home/LunchPreview'
 import GalleryTeaser from '@/components/home/GalleryTeaser'
 
-export const revalidate = 3600
+export const revalidate = 60
 
 interface SiteSettings {
   heroTitle?: string

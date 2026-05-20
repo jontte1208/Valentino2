@@ -2,7 +2,7 @@ import { sanityClient } from '@/sanity/client'
 import { siteSettingsQuery } from '@/sanity/queries'
 import OmOssClient from './OmOssClient'
 
-export const revalidate = 3600
+export const revalidate = 60
 
 interface SiteSettings {
   aboutTitle?: string

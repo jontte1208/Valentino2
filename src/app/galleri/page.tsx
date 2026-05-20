@@ -3,7 +3,7 @@ import { galleryImagesQuery } from '@/sanity/queries'
 import { urlFor } from '@/sanity/image'
 import GalleriClient from './GalleriClient'
 
-export const revalidate = 3600
+export const revalidate = 60
 
 interface SanityGalleryImage {
   _id: string

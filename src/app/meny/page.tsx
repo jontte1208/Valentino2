@@ -2,7 +2,7 @@ import { sanityClient } from '@/sanity/client'
 import { menuItemsQuery } from '@/sanity/queries'
 import MenuClient from './MenuClient'
 
-export const revalidate = 60 // ISR — uppdateras max var 60:e sekund
+export const revalidate = 60
 
 interface MenuItem {
   _id: string

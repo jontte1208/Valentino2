@@ -2,7 +2,7 @@ import { sanityClient } from '@/sanity/client'
 import { siteSettingsQuery } from '@/sanity/queries'
 import KontaktClient from './KontaktClient'
 
-export const revalidate = 3600
+export const revalidate = 60
 
 const DEFAULTS = {
   address: 'Nygatan 38, 242 31 Hörby, Skåne',
