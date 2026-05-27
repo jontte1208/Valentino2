@@ -21,6 +21,7 @@ interface VeckansLunchClientProps {
   lunchDays: LunchDay[]
   soup: WeeklySoup | null
   weekNumber: number
+  lunchHours?: string
 }
 
 // Sanity schemat lagrar dayOfWeek som "Måndag"/"Tisdag"/.... Behåll
@@ -43,7 +44,12 @@ const dayOrder = [
   'monday', 'tuesday', 'wednesday', 'thursday', 'friday',
 ]
 
-export default function VeckansLunchClient({ lunchDays, soup, weekNumber }: VeckansLunchClientProps) {
+export default function VeckansLunchClient({
+  lunchDays,
+  soup,
+  weekNumber,
+  lunchHours = 'Tisdag–Fredag: 11:30–14:00',
+}: VeckansLunchClientProps) {
   const sortedDays = [...lunchDays].sort(
     (a, b) => dayOrder.indexOf(a.dayOfWeek) - dayOrder.indexOf(b.dayOfWeek)
   )
@@ -68,7 +74,7 @@ export default function VeckansLunchClient({ lunchDays, soup, weekNumber }: Veck
           </span>
           <div className="w-12 h-px bg-[#C0623A] mx-auto mb-6" />
           <p className="font-inter text-sm text-[#1C1C1C]/55 leading-relaxed">
-            Serveras måndag–fredag 11:30–15:00
+            Serveras {lunchHours}
             <span className="mx-2 text-[#C0623A]/40">·</span>
             Alla luncher inkluderar sallad, saft, kaffe och kaka
           </p>

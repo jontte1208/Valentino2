@@ -56,6 +56,7 @@ async function getHomeData() {
     welcomeImage,
     lunchDays,
     weekNumber,
+    lunchHours: settings?.lunchHours,
   }
 }
 
@@ -71,6 +72,7 @@ export default async function HomePage() {
     welcomeImage,
     lunchDays,
     weekNumber,
+    lunchHours,
   } = await getHomeData()
 
   return (
@@ -85,7 +87,7 @@ export default async function HomePage() {
       />
       <BenefitsBar />
       <WelcomeSection welcomeText={welcomeText} welcomeImage={welcomeImage} />
-      <LunchPreview weekNumber={weekNumber} lunchDays={lunchDays} />
+      <LunchPreview weekNumber={weekNumber} lunchDays={lunchDays} lunchHours={lunchHours} />
       <GalleryTeaser />
     </>
   )

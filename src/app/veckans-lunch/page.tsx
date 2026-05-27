@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { sanityClient } from '@/sanity/client'
-import { lunchWeekQuery } from '@/sanity/queries'
+import { lunchWeekQuery, siteSettingsQuery } from '@/sanity/queries'
+import type { SiteSettings } from '@/sanity/types'
 import { getISOWeekNumber } from '@/lib/weekNumber'
 import VeckansLunchClient from './VeckansLunchClient'
 
@@ -32,10 +33,10 @@ async function getLunchData() {
   const weekNumber = getISOWeekNumber()
   const year = new Date().getFullYear()
 
-  const data = await sanityClient.fetch<LunchWeek | null>(lunchWeekQuery, {
-    weekNumber,
-    year,
-  })
+  const [data, settings] = await Promise.all([
+    sanityClient.fetch<LunchWeek | null>(lunchWeekQuery, { weekNumber, year }),
+    sanityClient.fetch<SiteSettings | null>(siteSettingsQuery),
+  ])
 
   // Anpassa till befintligt VeckansLunchClient-API (lunchDays-array + soup)
   const lunchDays = (data?.days ?? []).map((d, i) => ({
@@ -55,16 +56,17 @@ async function getLunchData() {
       }
     : null
 
-  return { lunchDays, soup, weekNumber }
+  return { lunchDays, soup, weekNumber, lunchHours: settings?.lunchHours }
 }
 
 export default async function VeckansLunchPage() {
-  const { lunchDays, soup, weekNumber } = await getLunchData()
+  const { lunchDays, soup, weekNumber, lunchHours } = await getLunchData()
   return (
     <VeckansLunchClient
       lunchDays={lunchDays}
       soup={soup}
       weekNumber={weekNumber}
+      lunchHours={lunchHours}
     />
   )
 }

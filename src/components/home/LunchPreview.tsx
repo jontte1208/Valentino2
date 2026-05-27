@@ -12,6 +12,7 @@ interface LunchDay {
 interface LunchPreviewProps {
   weekNumber: number
   lunchDays: LunchDay[]
+  lunchHours?: string
 }
 
 // Sanity schemat lagrar dayOfWeek som "Måndag"/"Tisdag"/.... Behåll
@@ -34,7 +35,11 @@ const dayOrder = [
   'monday', 'tuesday', 'wednesday', 'thursday', 'friday',
 ]
 
-export default function LunchPreview({ weekNumber, lunchDays }: LunchPreviewProps) {
+export default function LunchPreview({
+  weekNumber,
+  lunchDays,
+  lunchHours = 'Tisdag–Fredag: 11:30–14:00',
+}: LunchPreviewProps) {
   const sortedDays = [...lunchDays].sort(
     (a, b) => dayOrder.indexOf(a.dayOfWeek) - dayOrder.indexOf(b.dayOfWeek)
   )
@@ -59,7 +64,7 @@ export default function LunchPreview({ weekNumber, lunchDays }: LunchPreviewProp
               <span className="block italic text-[#C0623A]">lunch</span>
             </h2>
             <p className="font-inter text-sm text-[#FAF4EB]/60 leading-relaxed mb-8">
-              Vecka {weekNumber} — Njut av vår dagliga lunchemeny, tillagad med kärlek och de färskaste råvarorna. Serveras måndag–fredag kl 11:00–14:30.
+              Vecka {weekNumber} — Njut av vår dagliga lunchmeny, tillagad med kärlek och de färskaste råvarorna. Serveras {lunchHours}.
             </p>
             <Link
               href="/veckans-lunch"
