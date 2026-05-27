@@ -27,12 +27,12 @@ const inter = Inter({
 const SITE_URL = getSiteUrl()
 const SITE_NAME = 'Pizzeria Valentino'
 const SITE_DESCRIPTION =
-  'Pizzeria Valentino i Hörby, Skåne — pizza, kebab, pasta och dagens lunch. Öppet alla dagar i veckan.'
+  'Pizzeria Valentino i Hörby, Skåne. Välkommen in på lunch eller middag — öppet alla dagar i veckan.'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Pizzeria Valentino — Pizza, Kebab & Pasta i Hörby',
+    default: 'Pizzeria Valentino — Restaurang i Hörby',
     template: '%s | Pizzeria Valentino',
   },
   description: SITE_DESCRIPTION,
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     locale: 'sv_SE',
     url: SITE_URL,
     siteName: SITE_NAME,
-    title: 'Pizzeria Valentino — Pizza, Kebab & Pasta i Hörby',
+    title: 'Pizzeria Valentino — Restaurang i Hörby',
     description: SITE_DESCRIPTION,
     // SVG-platshållare — se public/OG_IMAGE_README.md för att byta till
     // en riktig 1200×630 JPG/PNG (bäst kompatibilitet).
@@ -69,7 +69,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Pizzeria Valentino — Pizza, Kebab & Pasta i Hörby',
+    title: 'Pizzeria Valentino — Restaurang i Hörby',
     description: SITE_DESCRIPTION,
     images: ['/og-image.svg'],
   },
