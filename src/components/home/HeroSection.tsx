@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 
@@ -38,13 +39,15 @@ export default function HeroSection({
           </video>
         )}
 
-        {/* Image background (shown if no video, or as poster) */}
+        {/* Image background (shown if no video, or as poster). Dekorativ → alt="". */}
         {!bgVideo && bgImage && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+          <Image
             src={bgImage}
-            alt="Hero background"
-            className="absolute inset-0 w-full h-full object-cover"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
           />
         )}
 
