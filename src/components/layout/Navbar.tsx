@@ -26,15 +26,24 @@ export default function Navbar() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20)
     }
-    // Capture initial scroll position immediately
-    setIsScrolled(window.scrollY > 20)
-    window.addEventListener('scroll', handleScroll)
+    handleScroll() // Capture initial scroll position
+    window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   useEffect(() => {
     setIsMobileMenuOpen(false)
   }, [pathname])
+
+  // Escape stänger mobilmenyn.
+  useEffect(() => {
+    if (!isMobileMenuOpen) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsMobileMenuOpen(false)
+    }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [isMobileMenuOpen])
 
   const isHomePage = pathname === '/'
   // Transparent only on the homepage hero when not scrolled and fully mounted
@@ -79,7 +88,9 @@ export default function Navbar() {
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="lg:hidden p-2 text-[#FAF4EB] hover:text-[#C0623A] transition-colors"
-            aria-label="Öppna meny"
+            aria-label={isMobileMenuOpen ? 'Stäng meny' : 'Öppna meny'}
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-menu"
           >
             {isMobileMenuOpen ? (
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -95,7 +106,7 @@ export default function Navbar() {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden py-4 border-t border-[#FAF4EB]/10">
+          <div id="mobile-menu" className="lg:hidden py-4 border-t border-[#FAF4EB]/10">
             <div className="flex flex-col space-y-1">
               {navLinks.map((link) => (
                 <Link
