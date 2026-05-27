@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { sanityClient } from '@/sanity/client'
 import { lunchWeekQuery } from '@/sanity/queries'
 import { getISOWeekNumber } from '@/lib/weekNumber'
@@ -6,6 +7,14 @@ import VeckansLunchClient from './VeckansLunchClient'
 // ISR: revalideras varje minut. När måndag slår över byts veckan automatiskt
 // inom kort efter att tiden passerat 00:00.
 export const revalidate = 60
+
+export const metadata: Metadata = {
+  title: 'Veckans lunch',
+  description:
+    'Veckans lunch på Pizzeria Valentino i Hörby — dagens rätt måndag till fredag, inklusive sallad, saft, kaffe och kaka.',
+  alternates: { canonical: '/veckans-lunch' },
+  openGraph: { title: 'Veckans lunch', url: '/veckans-lunch' },
+}
 
 interface LunchWeek {
   weekNumber: number

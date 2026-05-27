@@ -1,9 +1,18 @@
+import type { Metadata } from 'next'
 import { sanityClient } from '@/sanity/client'
 import { galleryImagesQuery } from '@/sanity/queries'
 import { urlFor } from '@/sanity/image'
 import GalleriClient from './GalleriClient'
 
 export const revalidate = 60
+
+export const metadata: Metadata = {
+  title: 'Galleri',
+  description:
+    'Bilder från Pizzeria Valentino i Hörby — restaurangen, rätterna och stämningen.',
+  alternates: { canonical: '/galleri' },
+  openGraph: { title: 'Galleri', url: '/galleri' },
+}
 
 interface SanityGalleryImage {
   _id: string

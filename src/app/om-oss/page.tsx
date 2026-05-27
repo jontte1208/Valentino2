@@ -1,8 +1,17 @@
+import type { Metadata } from 'next'
 import { sanityClient } from '@/sanity/client'
 import { siteSettingsQuery } from '@/sanity/queries'
 import OmOssClient from './OmOssClient'
 
 export const revalidate = 60
+
+export const metadata: Metadata = {
+  title: 'Om oss',
+  description:
+    'Pizzeria Valentino i Hörby — en familjerestaurang med fokus på goda råvaror, generösa portioner och välkomnande gästvänlighet.',
+  alternates: { canonical: '/om-oss' },
+  openGraph: { title: 'Om oss', url: '/om-oss' },
+}
 
 interface SiteSettings {
   aboutTitle?: string

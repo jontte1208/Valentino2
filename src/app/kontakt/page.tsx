@@ -1,8 +1,17 @@
+import type { Metadata } from 'next'
 import { sanityClient } from '@/sanity/client'
 import { siteSettingsQuery } from '@/sanity/queries'
 import KontaktClient from './KontaktClient'
 
 export const revalidate = 60
+
+export const metadata: Metadata = {
+  title: 'Kontakt',
+  description:
+    'Hitta hit, boka bord eller ring Pizzeria Valentino i Hörby. Adress, telefon, öppettider och karta.',
+  alternates: { canonical: '/kontakt' },
+  openGraph: { title: 'Kontakt', url: '/kontakt' },
+}
 
 const DEFAULTS = {
   address: 'Nygatan 38, 242 31 Hörby, Skåne',

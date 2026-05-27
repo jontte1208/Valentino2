@@ -1,8 +1,17 @@
+import type { Metadata } from 'next'
 import { sanityClient } from '@/sanity/client'
 import { menuItemsQuery } from '@/sanity/queries'
 import MenuClient from './MenuClient'
 
 export const revalidate = 60
+
+export const metadata: Metadata = {
+  title: 'Meny',
+  description:
+    'Hela menyn på Pizzeria Valentino i Hörby — pizza, pasta, kebab, sallader och mer. Färska råvaror, generösa portioner.',
+  alternates: { canonical: '/meny' },
+  openGraph: { title: 'Meny', url: '/meny' },
+}
 
 interface MenuItem {
   _id: string
