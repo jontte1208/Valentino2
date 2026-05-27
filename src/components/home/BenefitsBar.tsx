@@ -28,7 +28,7 @@ const benefits = [
       </svg>
     ),
     title: 'Öppet 7 dagar',
-    description: 'Vi välkomnar dig alla dagar i veckan — lunch varje vardag och middag varje kväll',
+    description: 'Vi välkomnar dig alla dagar i veckan — lunch tisdag–fredag och middag varje kväll',
   },
 ]
 
