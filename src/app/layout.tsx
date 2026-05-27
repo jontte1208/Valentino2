@@ -5,6 +5,7 @@ import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import { sanityClient } from '@/sanity/client'
 import { siteSettingsQuery } from '@/sanity/queries'
+import type { SiteSettings } from '@/sanity/types'
 import { getSiteUrl } from '@/lib/siteUrl'
 
 const SITE_URL = getSiteUrl()
@@ -57,17 +58,6 @@ export const metadata: Metadata = {
     images: ['/og-image.svg'],
   },
   robots: { index: true, follow: true },
-}
-
-interface SiteSettings {
-  footerTagline?: string
-  address?: string
-  phone?: string
-  email?: string
-  facebookUrl?: string
-  instagramUrl?: string
-  openingHours?: { day: string; hours: string }[]
-  lunchHours?: string
 }
 
 // JSON-LD: schema.org Restaurant — improves local SEO and rich results.

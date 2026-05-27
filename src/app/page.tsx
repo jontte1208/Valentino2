@@ -1,5 +1,6 @@
 import { sanityClient } from '@/sanity/client'
 import { lunchWeekQuery, siteSettingsQuery } from '@/sanity/queries'
+import type { SiteSettings } from '@/sanity/types'
 import { urlFor } from '@/sanity/image'
 import { getISOWeekNumber } from '@/lib/weekNumber'
 import HeroSection from '@/components/home/HeroSection'
@@ -9,17 +10,6 @@ import LunchPreview from '@/components/home/LunchPreview'
 import GalleryTeaser from '@/components/home/GalleryTeaser'
 
 export const revalidate = 60
-
-interface SiteSettings {
-  heroLabel?: string
-  heroTitle?: string
-  heroSubtitle?: string
-  heroTagline?: string
-  heroImage?: unknown
-  aboutTitle?: string
-  aboutBody?: unknown
-  aboutImage?: unknown
-}
 
 interface LunchWeekData {
   days?: Array<{

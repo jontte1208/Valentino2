@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { sanityClient } from '@/sanity/client'
 import { siteSettingsQuery } from '@/sanity/queries'
+import type { SiteSettings } from '@/sanity/types'
 import KontaktClient from './KontaktClient'
 
 export const revalidate = 60
@@ -29,15 +30,6 @@ const DEFAULTS = {
   lunchHours: 'Tisdag–Fredag: 11:30–14:00',
   mapEmbedUrl:
     'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2271.3!2d13.6597595!3d55.850975!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46542b3e3a3a3a3a%3A0x0!2sNygatan%2038%2C%20242%2031%20H%C3%B6rby!5e0!3m2!1ssv!2sse!4v1700000000000',
-}
-
-interface SiteSettings {
-  address?: string
-  phone?: string
-  email?: string
-  openingHours?: { day: string; hours: string }[]
-  lunchHours?: string
-  mapEmbedUrl?: string
 }
 
 export default async function KontaktPage() {
