@@ -2,6 +2,7 @@
 
 import { usePathname } from 'next/navigation'
 import type { ReactNode } from 'react'
+import { MotionConfig } from 'framer-motion'
 
 interface ConditionalLayoutProps {
   navbar: ReactNode
@@ -21,11 +22,13 @@ export default function ConditionalLayout({
     return <>{children}</>
   }
 
+  // reducedMotion="user" → respekterar OS-inställningen prefers-reduced-motion.
+  // Animationer på sajten degraderas automatiskt till statiska tillstånd.
   return (
-    <>
+    <MotionConfig reducedMotion="user">
       {navbar}
       <main>{children}</main>
       {footer}
-    </>
+    </MotionConfig>
   )
 }
