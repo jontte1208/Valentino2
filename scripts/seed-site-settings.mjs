@@ -51,12 +51,14 @@ const defaults = {
   footerTagline:
     'Pizzeria & Restaurang i Hörby, Skåne. Pizza, kebab, pasta och mer — öppet alla dagar i veckan.',
   facebookUrl: 'https://www.facebook.com/Restaurang.valentino/',
-  instagramUrl: 'https://www.facebook.com/Restaurang.valentino/',
+  // Tomt som default — sätt riktig URL i Studio när Instagram-konto finns.
+  // (Tidigare pekade detta felaktigt på Facebook-URL:en.)
+  instagramUrl: '',
   aboutTitle: 'En familjerestaurang med hjärta och historia',
   aboutText:
-    'Valentino grundades av familjen Rossi med en dröm om att ge Stockholmarna en genuin smak av Italien.',
+    'Pizzeria Valentino i Hörby serverar pizza, kebab och pasta med fokus på goda råvaror, generösa portioner och välkomnande gästvänlighet.',
   aboutStory:
-    'Restaurangens inredning speglar det autentiska italienska levnadssättet — varma toner, ljuset från ljusen och dofterna från köket skapar en atmosfär du sent ska glömma.',
+    'Vi har varit en del av Hörbys vardag i många år — en plats där grannar, familjer och nya gäster möts över en nybakad pizza.',
   openingHours: [
     { _key: 'mon', day: 'Måndag', hours: '13:00–21:00' },
     { _key: 'tue', day: 'Tisdag', hours: '11:30–22:00' },
