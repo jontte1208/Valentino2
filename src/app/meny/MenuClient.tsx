@@ -172,7 +172,7 @@ export default function MenuClient({ menuItems }: MenuClientProps) {
       </section>
 
       {/* ── Filter bar ──────────────────────────────────────────────────── */}
-      <section className="sticky top-16 lg:top-20 z-30 bg-[#FAF4EB]/95 backdrop-blur-sm border-b border-[#E8DDD0]">
+      <section className="sticky top-20 lg:top-24 z-30 bg-[#FAF4EB]/95 backdrop-blur-sm border-b border-[#E8DDD0]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <CategoryFilterBar
             categories={categories}
