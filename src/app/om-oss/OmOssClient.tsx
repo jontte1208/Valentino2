@@ -120,12 +120,12 @@ export default function OmOssClient({ aboutTitle, aboutText, aboutStory }: OmOss
               transition={{ duration: 0.8, delay: 0.2 }}
               className="grid grid-cols-2 gap-4"
             >
-              {/* Stats verifierade mot RestaurantGuru + Google Reviews (maj 2026).
-                  Källa: https://restaurantguru.com/Pizzeria-Valentino-Horby */}
+              {/* Stats verifierade mot RestaurantGuru top-lista för Hörby (maj 2026).
+                  Källa: https://restaurantguru.com/Horby */}
               {[
-                { number: '#5', label: 'Av 34 restauranger i Hörby' },
-                { number: '4.1', label: 'Google-betyg' },
-                { number: '615', label: 'Google-recensioner' },
+                { number: '#1', label: 'Av restaurangerna i Hörby' },
+                { number: '4.7', label: 'Snittbetyg' },
+                { number: '618', label: 'Recensioner' },
                 { number: '7', label: 'Dagar i veckan öppet' },
               ].map((stat) => (
                 <div

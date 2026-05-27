@@ -83,10 +83,10 @@ export default function WelcomeSection({ welcomeText, welcomeImage }: WelcomeSec
               <div className="absolute inset-3 border border-[#C0623A]/20 rounded-md pointer-events-none" />
             </div>
 
-            {/* Floating stat card */}
+            {/* Floating stat card — siffror från RestaurantGuru top-lista för Hörby. */}
             <div className="absolute -bottom-6 -left-6 bg-[#1C1C1C] text-[#FAF4EB] rounded-lg p-6 shadow-2xl">
-              <div className="font-playfair text-4xl font-bold text-[#C0623A]">4.1 ★</div>
-              <div className="font-inter text-xs text-[#FAF4EB]/70 mt-1">Google-betyg<br />421 recensioner</div>
+              <div className="font-playfair text-4xl font-bold text-[#C0623A]">4.7 ★</div>
+              <div className="font-inter text-xs text-[#FAF4EB]/70 mt-1">Snittbetyg<br />618 recensioner</div>
             </div>
           </motion.div>
         </div>
