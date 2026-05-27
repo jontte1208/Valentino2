@@ -20,10 +20,6 @@
     box-sizing: border-box;
   }
 
-  html {
-    scroll-behavior: smooth;
-  }
-
   body {
     background-color: var(--color-cream);
     color: var(--color-charcoal);
@@ -38,6 +34,7 @@
 }
 
 @layer utilities {
+  /* Knyt next/font CSS-variabler till klasser som koden använder. */
   .font-playfair {
     font-family: var(--font-playfair), serif;
   }
@@ -46,32 +43,18 @@
     font-family: var(--font-inter), sans-serif;
   }
 
-  .text-balance {
-    text-wrap: balance;
+  /* Dölj scrollbar på horisontellt scrollande filter-rader.
+     Standard Tailwind har ingen utility för detta. */
+  .scrollbar-hide {
+    scrollbar-width: none;        /* Firefox */
+    -ms-overflow-style: none;     /* IE 10+ */
   }
-
-  .bg-cream {
-    background-color: var(--color-cream);
-  }
-
-  .bg-charcoal {
-    background-color: var(--color-charcoal);
-  }
-
-  .text-terracotta {
-    color: var(--color-terracotta);
-  }
-
-  .bg-terracotta {
-    background-color: var(--color-terracotta);
-  }
-
-  .border-cream {
-    border-color: var(--color-border);
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;                /* WebKit/Blink */
   }
 }
 
-/* Smooth scroll for anchor links */
+/* Smooth scroll endast när användaren inte föredragit reducerad rörelse. */
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;
