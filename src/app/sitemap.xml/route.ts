@@ -1,11 +1,14 @@
-export async function GET() {
-  const baseUrl = process.env.NEXTAUTH_URL ?? 'http://localhost:3000'
+import { getSiteUrl } from '@/lib/siteUrl'
+
+export function GET() {
+  const baseUrl = getSiteUrl()
+  const lastmod = new Date().toISOString()
 
   const pages = [
     { url: '/', priority: '1.0', changefreq: 'daily' },
     { url: '/meny', priority: '0.9', changefreq: 'weekly' },
     { url: '/veckans-lunch', priority: '0.9', changefreq: 'weekly' },
-{ url: '/om-oss', priority: '0.7', changefreq: 'monthly' },
+    { url: '/om-oss', priority: '0.7', changefreq: 'monthly' },
     { url: '/kontakt', priority: '0.7', changefreq: 'monthly' },
     { url: '/galleri', priority: '0.6', changefreq: 'monthly' },
   ]
@@ -16,6 +19,7 @@ ${pages
   .map(
     (page) => `  <url>
     <loc>${baseUrl}${page.url}</loc>
+    <lastmod>${lastmod}</lastmod>
     <changefreq>${page.changefreq}</changefreq>
     <priority>${page.priority}</priority>
   </url>`

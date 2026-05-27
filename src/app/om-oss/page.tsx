@@ -18,11 +18,11 @@ export default async function OmOssPage() {
       aboutTitle={settings?.aboutTitle || 'En familjerestaurang med hjärta och historia'}
       aboutText={
         settings?.aboutText ||
-        'Valentino grundades av familjen Rossi med en dröm om att ge Stockholmarna en genuin smak av Italien.'
+        'Pizzeria Valentino i Hörby serverar pizza, kebab och pasta med fokus på goda råvaror, generösa portioner och välkomnande gästvänlighet.'
       }
       aboutStory={
         settings?.aboutStory ||
-        'Restaurangens inredning speglar det autentiska italienska levnadssättet.'
+        'Vi har varit en del av Hörbys vardag i många år — en plats där grannar, familjer och nya gäster möts över en nybakad pizza.'
       }
     />
   )

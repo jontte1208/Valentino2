@@ -46,15 +46,10 @@ async function getHomeData() {
     ? urlFor(settings.aboutImage as never).width(1200).url()
     : ''
 
-  const lunchDays = (lunch?.days ?? []).map((d, i) => ({
-    id: i + 1,
-    weekNumber,
-    year,
+  const lunchDays = (lunch?.days ?? []).map((d) => ({
     dayOfWeek: d.dayOfWeek,
     dishName: d.dishName,
-    description: d.description,
     price: d.price,
-    updatedAt: new Date(),
   }))
 
   return {
@@ -100,8 +95,7 @@ export default async function HomePage() {
       />
       <BenefitsBar />
       <WelcomeSection welcomeText={welcomeText} welcomeImage={welcomeImage} />
-      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-      <LunchPreview weekNumber={weekNumber} lunchDays={lunchDays as any} />
+      <LunchPreview weekNumber={weekNumber} lunchDays={lunchDays} />
       <GalleryTeaser />
     </>
   )

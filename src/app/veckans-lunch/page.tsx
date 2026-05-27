@@ -31,20 +31,15 @@ async function getLunchData() {
   // Anpassa till befintligt VeckansLunchClient-API (lunchDays-array + soup)
   const lunchDays = (data?.days ?? []).map((d, i) => ({
     id: i + 1,
-    weekNumber,
-    year,
     dayOfWeek: d.dayOfWeek,
     dishName: d.dishName,
     description: d.description,
     price: d.price,
-    updatedAt: new Date(),
   }))
 
   const soup = data?.soup
     ? {
         id: 1,
-        weekNumber,
-        year,
         name: data.soup.name,
         description: data.soup.description,
         price: data.soup.price,
@@ -58,10 +53,8 @@ export default async function VeckansLunchPage() {
   const { lunchDays, soup, weekNumber } = await getLunchData()
   return (
     <VeckansLunchClient
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      lunchDays={lunchDays as any}
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      soup={soup as any}
+      lunchDays={lunchDays}
+      soup={soup}
       weekNumber={weekNumber}
     />
   )

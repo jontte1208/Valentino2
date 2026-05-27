@@ -1,8 +1,18 @@
-export async function GET() {
-  return new Response(
-    `User-agent: *\nAllow: /\nDisallow: /admin\n\nSitemap: http://localhost:3000/sitemap.xml`,
-    {
-      headers: { 'Content-Type': 'text/plain' },
-    }
-  )
+import { getSiteUrl } from '@/lib/siteUrl'
+
+export function GET() {
+  const baseUrl = getSiteUrl()
+
+  const body = [
+    'User-agent: *',
+    'Allow: /',
+    'Disallow: /studio',
+    '',
+    `Sitemap: ${baseUrl}/sitemap.xml`,
+    '',
+  ].join('\n')
+
+  return new Response(body, {
+    headers: { 'Content-Type': 'text/plain' },
+  })
 }

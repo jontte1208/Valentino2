@@ -30,9 +30,7 @@ export default async function MenyPage() {
     price: it.price,
     category: it.category,
     pizzaType: it.pizzaType ?? null,
-    order: it.order,
   }))
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return <MenuClient menuItems={menuItems as any} />
+  return <MenuClient menuItems={menuItems} />
 }

@@ -174,7 +174,8 @@ export default function VeckansLunchClient({ lunchDays, soup, weekNumber }: Veck
               {' '}sallad, saft, kaffe och kaka.
               <br className="hidden sm:block" />
               {' '}Välkommen in till oss på{' '}
-              <span className="text-[#1C1C1C]/70">Stortorget 2, Hörby</span>.
+              {/* Adress hårdkodad för enkelhet — håll synkad med siteSettings.address i Sanity. */}
+              <span className="text-[#1C1C1C]/70">Nygatan 38, Hörby</span>.
             </p>
           </motion.div>
         </div>

@@ -57,3 +57,5 @@ graphify-out/
 
 # Lösa skärmdumpar och referensbilder vid projektroten
 /Pizzeria-Valentino_*.jpg
+
+.vercel
