@@ -32,10 +32,10 @@ async function getHomeData() {
   ])
 
   const heroImage = settings?.heroImage
-    ? urlFor(settings.heroImage as never).width(1920).url()
+    ? urlFor(settings.heroImage).width(1920).url()
     : ''
   const welcomeImage = settings?.aboutImage
-    ? urlFor(settings.aboutImage as never).width(1200).url()
+    ? urlFor(settings.aboutImage).width(1200).url()
     : ''
 
   const lunchDays = (lunch?.days ?? []).map((d) => ({

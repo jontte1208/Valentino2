@@ -15,9 +15,11 @@ export interface OpeningHoursRow {
 // behövs bara där `aboutBody` faktiskt renderas, och kan kastas där lokalt.
 export type PortableTextBlocks = unknown[]
 
-// Sanity image-fält är en SanityImageSource — vi använder `unknown` här och
-// låter konsumenterna typcasta via `urlFor(...)` (befintligt mönster i koden).
-export type SanityImageRef = unknown
+// Sanity image-fält. Använd `SanityImageSource` direkt så `urlFor()` accepterar
+// värdet utan typcastning. Återexporteras här för bekvämlighet.
+export type { SanityImageSource } from '@sanity/image-url/lib/types/types'
+import type { SanityImageSource } from '@sanity/image-url/lib/types/types'
+export type SanityImageRef = SanityImageSource
 
 export interface SiteSettings {
   // Hero

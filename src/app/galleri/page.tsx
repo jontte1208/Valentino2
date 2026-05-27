@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { sanityClient } from '@/sanity/client'
 import { galleryImagesQuery } from '@/sanity/queries'
 import { urlFor } from '@/sanity/image'
+import type { SanityImageSource } from '@/sanity/types'
 import GalleriClient from './GalleriClient'
 
 // Galleribilder ändras sällan — 1h ISR räcker.
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
 
 interface SanityGalleryImage {
   _id: string
-  image: unknown
+  image: SanityImageSource
   alt: string
   order: number
 }
@@ -35,7 +36,8 @@ export default async function GalleriPage() {
     .filter((g) => g.image)
     .map((g) => ({
       id: g._id,
-      src: urlFor(g.image as never).width(1600).quality(85).url(),
+      // .quality(80) sätts som default i urlFor() — vi behöver inte chaina det.
+      src: urlFor(g.image).width(1600).url(),
       alt: g.alt,
     }))
 
