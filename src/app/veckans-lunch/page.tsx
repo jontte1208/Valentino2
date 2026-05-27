@@ -5,9 +5,9 @@ import type { SiteSettings } from '@/sanity/types'
 import { getISOWeekNumber } from '@/lib/weekNumber'
 import VeckansLunchClient from './VeckansLunchClient'
 
-// ISR: revalideras varje minut. När måndag slår över byts veckan automatiskt
-// inom kort efter att tiden passerat 00:00.
-export const revalidate = 60
+// ISR: revalideras varje timme. Lunchmenyn uppdateras typiskt veckovis,
+// så 1h fördröjning vid måndagens veckobyte är acceptabel.
+export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: 'Veckans lunch',

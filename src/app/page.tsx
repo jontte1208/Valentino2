@@ -9,7 +9,9 @@ import WelcomeSection from '@/components/home/WelcomeSection'
 import LunchPreview from '@/components/home/LunchPreview'
 import GalleryTeaser from '@/components/home/GalleryTeaser'
 
-export const revalidate = 60
+// Hemsidan visar både siteSettings (sällan) och dagens lunch (veckovis).
+// 10 min ISR är en bra balans mellan fräschhet och kostnad.
+export const revalidate = 600
 
 interface LunchWeekData {
   days?: Array<{

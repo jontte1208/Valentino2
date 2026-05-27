@@ -3,7 +3,8 @@ import { sanityClient } from '@/sanity/client'
 import { menuItemsQuery } from '@/sanity/queries'
 import MenuClient from './MenuClient'
 
-export const revalidate = 60
+// Meny ändras sällan — 1h ISR räcker.
+export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: 'Meny',

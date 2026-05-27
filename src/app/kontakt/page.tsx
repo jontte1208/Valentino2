@@ -4,7 +4,8 @@ import { siteSettingsQuery } from '@/sanity/queries'
 import type { SiteSettings } from '@/sanity/types'
 import KontaktClient from './KontaktClient'
 
-export const revalidate = 60
+// Kontaktuppgifter och öppettider ändras sällan — 1h ISR räcker.
+export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: 'Kontakt',
