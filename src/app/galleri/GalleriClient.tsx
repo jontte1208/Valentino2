@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 
 export interface GalleryItem {
@@ -98,17 +99,15 @@ export default function GalleriClient({ images }: GalleriClientProps) {
                   transition={{ duration: 0.4, delay: (index % 8) * 0.08 }}
                   onClick={() => openLightbox(index)}
                   className={`relative overflow-hidden rounded-lg group cursor-pointer ${
-                    index % 5 === 0 ? 'col-span-2 row-span-2' : ''
+                    index % 5 === 0 ? 'col-span-2 row-span-2 h-64' : 'h-40'
                   }`}
                 >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  <Image
                     src={image.src}
                     alt={image.alt}
-                    loading="lazy"
-                    className={`w-full object-cover transition-transform duration-500 group-hover:scale-110 ${
-                      index % 5 === 0 ? 'h-64' : 'h-40'
-                    }`}
+                    fill
+                    sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-[#1C1C1C]/0 group-hover:bg-[#1C1C1C]/30 transition-all duration-300 flex items-center justify-center">
                     <svg
@@ -176,6 +175,13 @@ export default function GalleriClient({ images }: GalleriClientProps) {
               className="max-w-3xl w-full"
               onClick={(e) => e.stopPropagation()}
             >
+              {/*
+                Lightbox-bilden förblir <img>: bilder har varierande aspekt,
+                ska visas i sin naturliga proportion via object-contain inom
+                max-h-[80vh], och vi har inga intrinsic-dimensioner i GROQ-svaret.
+                next/image med `fill` skulle kräva fast aspect-wrapper och
+                bryta natural-fit-beteendet.
+              */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={images[lightboxIndex].src}

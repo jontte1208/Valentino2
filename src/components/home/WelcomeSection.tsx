@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 
@@ -57,11 +58,12 @@ export default function WelcomeSection({ welcomeText, welcomeImage }: WelcomeSec
           >
             <div className="relative h-[500px] rounded-lg overflow-hidden">
               {welcomeImage ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
+                <Image
                   src={welcomeImage}
                   alt="Restaurangen"
-                  className="absolute inset-0 w-full h-full object-cover"
+                  fill
+                  sizes="(min-width: 1024px) 50vw, 100vw"
+                  className="object-cover"
                 />
               ) : (
                 <div className="absolute inset-0 bg-gradient-to-br from-[#C0623A]/20 to-[#1C1C1C]/40">
