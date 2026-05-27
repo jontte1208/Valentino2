@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 export interface GalleryItem {
@@ -15,21 +15,47 @@ interface GalleriClientProps {
 
 export default function GalleriClient({ images }: GalleriClientProps) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
+  const closeBtnRef = useRef<HTMLButtonElement>(null)
 
-  function openLightbox(index: number) {
+  const openLightbox = useCallback((index: number) => {
     setLightboxIndex(index)
-  }
-  function closeLightbox() {
+  }, [])
+  const closeLightbox = useCallback(() => {
     setLightboxIndex(null)
-  }
-  function prevImage() {
+  }, [])
+  const prevImage = useCallback(() => {
     setLightboxIndex((prev) =>
       prev !== null ? (prev - 1 + images.length) % images.length : null
     )
-  }
-  function nextImage() {
+  }, [images.length])
+  const nextImage = useCallback(() => {
     setLightboxIndex((prev) => (prev !== null ? (prev + 1) % images.length : null))
-  }
+  }, [images.length])
+
+  // Keyboard: Escape stänger, vänster/höger navigerar.
+  // Body scroll lock + initial fokus på stäng-knappen vid öppning.
+  useEffect(() => {
+    if (lightboxIndex === null) return
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeLightbox()
+      else if (e.key === 'ArrowLeft') prevImage()
+      else if (e.key === 'ArrowRight') nextImage()
+    }
+    document.addEventListener('keydown', onKey)
+
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
+    // Vänta en frame så att motion-elementet är monterat innan vi fokuserar.
+    const focusTimer = window.setTimeout(() => closeBtnRef.current?.focus(), 0)
+
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.body.style.overflow = previousOverflow
+      window.clearTimeout(focusTimer)
+    }
+  }, [lightboxIndex, closeLightbox, prevImage, nextImage])
 
   return (
     <div className="bg-[#FAF4EB] min-h-screen">
@@ -114,8 +140,12 @@ export default function GalleriClient({ images }: GalleriClientProps) {
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 bg-[#1C1C1C]/95 flex items-center justify-center p-4"
             onClick={closeLightbox}
+            role="dialog"
+            aria-modal="true"
+            aria-label={`Bildvisning ${lightboxIndex + 1} av ${images.length}`}
           >
             <button
+              ref={closeBtnRef}
               onClick={closeLightbox}
               className="absolute top-4 right-4 text-[#FAF4EB]/70 hover:text-[#FAF4EB] transition-colors z-10"
               aria-label="Stäng"
