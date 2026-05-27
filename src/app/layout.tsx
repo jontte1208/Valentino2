@@ -39,11 +39,22 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     title: 'Pizzeria Valentino — Pizza, Kebab & Pasta i Hörby',
     description: SITE_DESCRIPTION,
+    // SVG-platshållare — se public/OG_IMAGE_README.md för att byta till
+    // en riktig 1200×630 JPG/PNG (bäst kompatibilitet).
+    images: [
+      {
+        url: '/og-image.svg',
+        width: 1200,
+        height: 630,
+        alt: 'Pizzeria Valentino — Hörby, Skåne',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Pizzeria Valentino — Pizza, Kebab & Pasta i Hörby',
     description: SITE_DESCRIPTION,
+    images: ['/og-image.svg'],
   },
   robots: { index: true, follow: true },
 }
