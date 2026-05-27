@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { sanityClient } from '@/sanity/client'
 import { lunchWeekQuery, siteSettingsQuery } from '@/sanity/queries'
 import type { SiteSettings } from '@/sanity/types'
-import { getISOWeekNumber } from '@/lib/weekNumber'
+import { getISOWeekNumber, getISOWeekYear } from '@/lib/weekNumber'
 import VeckansLunchClient from './VeckansLunchClient'
 
 // ISR: revalideras varje timme. Lunchmenyn uppdateras typiskt veckovis,
@@ -31,7 +31,7 @@ interface LunchWeek {
 
 async function getLunchData() {
   const weekNumber = getISOWeekNumber()
-  const year = new Date().getFullYear()
+  const year = getISOWeekYear()
 
   const [data, settings] = await Promise.all([
     sanityClient.fetch<LunchWeek | null>(lunchWeekQuery, { weekNumber, year }),

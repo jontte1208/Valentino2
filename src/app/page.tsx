@@ -2,7 +2,7 @@ import { sanityClient } from '@/sanity/client'
 import { lunchWeekQuery, siteSettingsQuery } from '@/sanity/queries'
 import type { SiteSettings } from '@/sanity/types'
 import { urlFor } from '@/sanity/image'
-import { getISOWeekNumber } from '@/lib/weekNumber'
+import { getISOWeekNumber, getISOWeekYear } from '@/lib/weekNumber'
 import HeroSection from '@/components/home/HeroSection'
 import BenefitsBar from '@/components/home/BenefitsBar'
 import WelcomeSection from '@/components/home/WelcomeSection'
@@ -24,7 +24,7 @@ interface LunchWeekData {
 
 async function getHomeData() {
   const weekNumber = getISOWeekNumber()
-  const year = new Date().getFullYear()
+  const year = getISOWeekYear()
 
   const [settings, lunch] = await Promise.all([
     sanityClient.fetch<SiteSettings | null>(siteSettingsQuery),
