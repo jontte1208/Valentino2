@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -62,9 +63,17 @@ export default function Navbar() {
           {/* Logo */}
           <Link
             href="/"
-            className="font-playfair text-2xl font-bold text-[#FAF4EB] hover:text-[#C0623A] transition-colors duration-300 tracking-wide"
+            aria-label="Pizzeria Valentino — startsida"
+            className="flex items-center gap-2 transition-opacity duration-300 hover:opacity-80"
           >
-            Valentino
+            <Image
+              src="/logo.png"
+              alt="Pizzeria Valentino"
+              width={160}
+              height={160}
+              priority
+              className="h-12 lg:h-14 w-auto"
+            />
           </Link>
 
           {/* Desktop Nav */}
