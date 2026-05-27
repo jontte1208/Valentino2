@@ -1,4 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap');
+/* Fonts laddas via next/font (se src/app/layout.tsx) — self-hosted utan
+   render-blocking external CSS. CSS-variablerna --font-playfair och
+   --font-inter exponeras på <html> och konsumeras av Tailwind-utilities. */
 
 @tailwind base;
 @tailwind components;
@@ -25,23 +27,23 @@
   body {
     background-color: var(--color-cream);
     color: var(--color-charcoal);
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-inter), sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-playfair), serif;
   }
 }
 
 @layer utilities {
   .font-playfair {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-playfair), serif;
   }
 
   .font-inter {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-inter), sans-serif;
   }
 
   .text-balance {

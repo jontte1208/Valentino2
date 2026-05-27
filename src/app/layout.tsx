@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Playfair_Display, Inter } from 'next/font/google'
 import './globals.css'
 import ConditionalLayout from '@/components/layout/ConditionalLayout'
 import Navbar from '@/components/layout/Navbar'
@@ -7,6 +8,21 @@ import { sanityClient } from '@/sanity/client'
 import { siteSettingsQuery } from '@/sanity/queries'
 import type { SiteSettings } from '@/sanity/types'
 import { getSiteUrl } from '@/lib/siteUrl'
+
+// Self-hosted via next/font — eliminerar render-blocking Google Fonts CSS.
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  variable: '--font-playfair',
+  display: 'swap',
+  weight: ['400', '500', '600', '700', '800'],
+  style: ['normal', 'italic'],
+})
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+  weight: ['300', '400', '500', '600', '700'],
+})
 
 const SITE_URL = getSiteUrl()
 const SITE_NAME = 'Pizzeria Valentino'
@@ -102,7 +118,7 @@ export default async function RootLayout({
   const settings = (await sanityClient.fetch<SiteSettings | null>(siteSettingsQuery)) ?? {}
 
   return (
-    <html lang="sv">
+    <html lang="sv" className={`${playfair.variable} ${inter.variable}`}>
       <body className="antialiased">
         <script
           type="application/ld+json"
