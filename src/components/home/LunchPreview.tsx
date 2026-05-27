@@ -14,7 +14,14 @@ interface LunchPreviewProps {
   lunchDays: LunchDay[]
 }
 
+// Sanity schemat lagrar dayOfWeek som "Måndag"/"Tisdag"/.... Behåll
+// engelska nycklar som fallback för bakåtkompatibilitet om gammal data finns.
 const dayLabels: Record<string, string> = {
+  Måndag: 'Måndag',
+  Tisdag: 'Tisdag',
+  Onsdag: 'Onsdag',
+  Torsdag: 'Torsdag',
+  Fredag: 'Fredag',
   monday: 'Måndag',
   tuesday: 'Tisdag',
   wednesday: 'Onsdag',
@@ -22,7 +29,10 @@ const dayLabels: Record<string, string> = {
   friday: 'Fredag',
 }
 
-const dayOrder = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday']
+const dayOrder = [
+  'Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag',
+  'monday', 'tuesday', 'wednesday', 'thursday', 'friday',
+]
 
 export default function LunchPreview({ weekNumber, lunchDays }: LunchPreviewProps) {
   const sortedDays = [...lunchDays].sort(
